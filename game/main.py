@@ -2,8 +2,6 @@ import pygame, sys
 import textwrap
 from pygame.locals import *
 
-speed = 10
-
 
 class Executus():
     __customes= ("Executus")
@@ -34,29 +32,24 @@ class Game():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                elif event.type == KEYDOWN:
+                elif event.type == pygame.KEYDOWN:
                     keys = pygame.key.get_pressed()
-                    if keys[K_UP]:
+                    if keys[pygame.K_UP]:
                         self.executus.position[1] -= 10
-                        self.executus.position[1] += speed
-                        
-                    elif keys[K_DOWN]:
+                            
+                    elif keys[pygame.K_DOWN]:
                         self.executus.position[1] += 10
-                        self.executus.position[1] += speed
-                        
-                    elif keys[K_LEFT]:
+                            
+                    elif keys[pygame.K_LEFT]:
                         self.executus.position[0] -= 10
-                        self.executus.position[1] += speed
-                        
-                    elif keys[K_RIGHT]:
+                            
+                    elif keys[pygame.K_RIGHT]:
                         self.executus.position[0]  += 10
-                        self.executus.position[1] += speed
-                        
+                            
                     else:
                         pass
-        
-        
 
+            
         
             self.__screen.blit(self.__background, (0, 0)) # refresh background
             self.__screen.blit(self.executus.custome, self.executus.position)
