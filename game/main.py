@@ -28,6 +28,7 @@ class Game():
         self.executus = Executus(320, 240)
         
         
+        
     def start(self):
         gameOver = False
         while not gameOver:
@@ -59,6 +60,7 @@ class Game():
             self.__screen.blit(self.executus.custome, self.executus.position)
             
             pygame.display.flip()
+            
             
 
             
