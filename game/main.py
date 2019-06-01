@@ -2,6 +2,8 @@ import pygame, sys
 import textwrap
 from pygame.locals import *
 
+pygame.init()
+
 
 class Executus():
     __customes= ("Executus")
@@ -12,15 +14,16 @@ class Executus():
     
 
 class Game():   
-    __init = (40) # start position 
-    __names = ("Executus")
-    __startLine = 4
-    __finishLine = 620
+    __name = ("Executus")
+    moveX = 0
+    moveY = 0
+
     
     def __init__(self):
         self.__screen = pygame.display.set_mode((1040, 704))
         self.__background = pygame.image.load('indoor.png')
         pygame.display.set_caption("Executus time !")
+        pygame.key.set_repeat(1,8)  # automatic move 
         
         self.executus = Executus(320, 240)
         
@@ -35,19 +38,20 @@ class Game():
                 elif event.type == pygame.KEYDOWN:
                     keys = pygame.key.get_pressed()
                     if keys[pygame.K_UP]:
-                        self.executus.position[1] -= 10
-                            
+                        self.executus.position[1] -= 4
+                                
                     elif keys[pygame.K_DOWN]:
-                        self.executus.position[1] += 10
-                            
+                        self.executus.position[1] += 4
+                                
                     elif keys[pygame.K_LEFT]:
-                        self.executus.position[0] -= 10
-                            
+                        self.executus.position[0] -= 4
+                                
                     elif keys[pygame.K_RIGHT]:
-                        self.executus.position[0]  += 10
-                            
+                        self.executus.position[0] += 4
+                                
                     else:
                         pass
+                    
 
             
         
