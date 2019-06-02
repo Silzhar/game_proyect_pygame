@@ -8,14 +8,14 @@ clock = pygame.time.Clock()
 class Executus(pygame.sprite.Sprite):
     __customes= ("Executus")
     
-    def __init__(self, x=0, y= 0):  # x=0, y= 0
+    def __init__(self, position):  # x=0, y= 0
         self.sheet = pygame.image.load("spliteCat.png")
         self.sheet.set_clip(pygame.Rect(0, 0, 50, 30))
         self.image = self.sheet.subsurface(self.sheet.get_clip()) # get image nº1 of sprites
         self.rect = self.image.get_rect()
-       # self.rect.topleft = position
+        self.rect.topleft = position
         self.frame = 0
-        self.position = [x, y]
+      #  self.position = [x, y]
                                                     
         self.right_states = { 0: ( 0, 0, 50, 30 ), 1: (32 , 0, 30, 50), 2: (64 , 0, 30, 50)}
         self.up_states = { 0: ( 0, 30, 30, 50 ), 1: (32 , 30, 30, 50), 2: (64 , 30, 30, 50)}

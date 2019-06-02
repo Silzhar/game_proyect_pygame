@@ -1,8 +1,8 @@
 import pygame
 import player
 
-pygame.init()
 
+pygame.init()
 
         
 width_window = 1040
@@ -13,7 +13,9 @@ background = pygame.image.load('indoor.png')
 pygame.display.set_caption("Executus time !")
 clock = pygame.time.Clock()
 player = player.Executus((width_window/10, height_window/10))
-                
+
+
+
 game_over = False
 
 while game_over == False:
