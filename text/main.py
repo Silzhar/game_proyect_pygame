@@ -1,5 +1,6 @@
 import pygame
 import player
+from pygame.locals import *
 
 
 pygame.init()
@@ -13,7 +14,12 @@ background = pygame.image.load('indoor.png')
 walls = pygame.image.load('walls.png')
 pygame.display.set_caption("Executus time !")
 clock = pygame.time.Clock()
+
 player = player.Executus((width_window/5, height_window/5))
+wallsSprite = pygame.sprite.Sprite()
+wallsSprite.image = walls
+wallsSprite.rect = walls.get_rect()
+wallsSpriteTransparent = True
 
 
 
@@ -25,9 +31,10 @@ while game_over == False:
             game_over = True
                         
     player.handle_event(event)
-    screen.blit(background, (0, 0))
-    screen.blit(walls, (0, 0))
-    screen.blit(player.image, player.rect)
+    screen.blit(background, (0, 0))   
+    if wallsSpriteTransparent:                   # screen.blit(walls, (0, 0))
+        screen.blit(wallsSprite, player)
+   # screen.blit(player.image, player.rect)
                 
     pygame.display.flip()
     clock.tick(20)
