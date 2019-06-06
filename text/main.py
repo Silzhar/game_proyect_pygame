@@ -21,7 +21,9 @@ wallsSprite.image = walls
 wallsSprite.rect = walls.get_rect()
 wallsSpriteTransparent = True
 
+collisions = pygame.sprite.collide_rect(wallsSprite, player)
 
+    
 
 game_over = False
 
@@ -31,10 +33,14 @@ while game_over == False:
             game_over = True
                         
     player.handle_event(event)
-    screen.blit(background, (0, 0))   
-    if wallsSpriteTransparent:                   # screen.blit(walls, (0, 0))
-        screen.blit(wallsSprite, player)
-   # screen.blit(player.image, player.rect)
+    screen.blit(background, (0, 0))    # screen.blit(walls, (0, 0))
+    if collisions == True:
+        player.handle_event(None)
+    else:
+        player.handle_event(event)
+                  
+        
+    screen.blit(player.image, player.rect)
                 
     pygame.display.flip()
     clock.tick(20)
