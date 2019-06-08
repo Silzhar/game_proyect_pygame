@@ -19,8 +19,8 @@ player = player.Executus((width_window/5, height_window/5))
 wallsSprite = pygame.sprite.Sprite()
 wallsSprite.image = walls
 wallsSprite.rect = walls.get_rect()
-wallsSpriteTransparent = True
 
+direction = player.update(move) # need solution !
 collisions = pygame.sprite.collide_rect(wallsSprite, player)
 
     
@@ -35,9 +35,9 @@ while game_over == False:
     player.handle_event(event)
     screen.blit(background, (0, 0))    # screen.blit(walls, (0, 0))
     if collisions == True:
-        player.handle_event(None)
-    else:
-        player.handle_event(event)
+        player.update(direction) == 0
+        
+
                   
         
     screen.blit(player.image, player.rect)
