@@ -31,7 +31,8 @@ class Executus(pygame.sprite.Sprite):
             self.sheet.set_clip(pygame.Rect(clipped_rect))
         return clipped_rect
 
-    def update(self, direction):
+
+    def update(self, direction):       
         if direction == 'left':
             self.clip(self.left_states)
             self.rect.x -= 4
@@ -55,6 +56,7 @@ class Executus(pygame.sprite.Sprite):
             self.clip(self.down_states[0])
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
+
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
