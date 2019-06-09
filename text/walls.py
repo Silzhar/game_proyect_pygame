@@ -7,7 +7,10 @@ class Walls(pygame.sprite.Sprite):
         self.wall = pygame.Color("white")
         
 
-    def status(self, positions):        
+    def dimensions(self, limits):
+        wall1 = pygame.draw.poligon(self.wall, )
+        
+        
         self.height = 53
         self.width = 495
         self.x = 492
