@@ -26,7 +26,8 @@ wallsSprite = pygame.sprite.Sprite()
 wallsSprite.image = wallsBg
 wallsSprite.rect = wallsBg.get_rect()
 
-wallsLimits = walls.Limits((0, 0))
+#wallsLimits = walls.Limits((0, 0))
+wallsLimits = walls
 wallsLimits = pygame.sprite.Sprite()
 wallsLimits = walls.get_rect()
 

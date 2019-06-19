@@ -8,6 +8,7 @@ class Limits(pygame.sprite.Sprite):
     def __init__(self, position):
         self.shape_color = (40, 210, 250)
         self.rectangles.image = main.screen
+        self.rect = self.rectangles.get_rect()
         
 
     def Walls(self,rectangles):
