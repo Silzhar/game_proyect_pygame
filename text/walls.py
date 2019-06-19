@@ -1,9 +1,13 @@
 import pygame
+import main
+
+
 
 
 class Limits(pygame.sprite.Sprite):
     def __init__(self, position):
         self.shape_color = (40, 210, 250)
+        self.rectangles.image = main.screen
         
 
     def Walls(self,rectangles):

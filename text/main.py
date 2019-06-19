@@ -28,7 +28,7 @@ wallsSprite.rect = wallsBg.get_rect()
 
 wallsLimits = walls.Limits((0, 0))
 wallsLimits = pygame.sprite.Sprite()
-
+wallsLimits = walls.get_rect()
 
 
 collisions = pygame.sprite.collide_rect(wallsSprite, player)
@@ -46,7 +46,7 @@ while game_over == False:
     
     screen.blit(background, (0, 0))    # screen.blit(walls, (0, 0))
 
-    screen.blit(walls.image, walls.rect)
+    screen.blit(walls, walls.rect)
     screen.blit(wallsSprite.image, wallsSprite.rect)    
     screen.blit(player.image, player.rect)
     
