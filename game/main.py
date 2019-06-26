@@ -1,71 +1,61 @@
-import pygame, sys
-import textwrap
+import pygame
+import player
+import walls
+
 from pygame.locals import *
+
 
 pygame.init()
 
+        
+width_window = 1040
+height_window = 704
 
-class Executus():
-    __customes= ("Executus")
+
+        
+screen = pygame.display.set_mode((width_window, height_window))
+background = pygame.image.load('indoor.png')
+pygame.display.set_caption("Executus time !")
+clock = pygame.time.Clock() 
+
+player = player.Executus((width_window/10, height_window/4))
+
+
+wallsBg = pygame.image.load('walls.png')
+wallsSprite = pygame.sprite.Sprite()
+wallsSprite.image = wallsBg
+wallsSprite.rect = wallsBg.get_rect()
+
+#wallsLimits = walls.Limits((0, 0))
+wallsLimits = walls
+wallsLimits = pygame.sprite.Sprite()
+# wallsLimits = walls.get_rect()
+
+
+collisions = pygame.sprite.collide_rect(wallsSprite, player)
+
+
+game_over = False
+
+while game_over == False:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game_over = True
     
-    def __init__(self, x=0, y= 0):
-        self.custome = pygame.image.load("executus.png")
-        self.position = [x, y]
+   # walls.Limits((0, 0))            
+    player.handle_event(event)
     
+    screen.blit(background, (0, 0))    # screen.blit(walls, (0, 0))
 
-class Game():   
-    __name = ("Executus")
-    moveX = 0
-    moveY = 0
-
+   # screen.blit(walls, walls.rect)
+    screen.blit(wallsSprite.image, wallsSprite.rect)    
+    screen.blit(player.image, player.rect)
     
-    def __init__(self):
-        self.__screen = pygame.display.set_mode((1040, 704))
-        self.__background = pygame.image.load('indoor.png')
-        pygame.display.set_caption("Executus time !")
-        pygame.key.set_repeat(1,8)  # automatic move 
-        
-        self.executus = Executus(320, 240)
-        
-        
-        
-    def start(self):
-        gameOver = False
-        while not gameOver:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    keys = pygame.key.get_pressed()
-                    if keys[pygame.K_UP]:
-                        self.executus.position[1] -= 4
-                                
-                    elif keys[pygame.K_DOWN]:
-                        self.executus.position[1] += 4
-                                
-                    elif keys[pygame.K_LEFT]:
-                        self.executus.position[0] -= 4
-                                
-                    elif keys[pygame.K_RIGHT]:
-                        self.executus.position[0] += 4
-                                
-                    else:
-                        pass
-                    
+    if collisions == True :
+        player.update( player) == None
 
-            
-        
-            self.__screen.blit(self.__background, (0, 0)) # refresh background
-            self.__screen.blit(self.executus.custome, self.executus.position)
-            
-            pygame.display.flip()
-            
-            
-
-            
-            
-if __name__ =='__main__':
-    game = Game()
-    pygame.font.init()
-    game.start()
+                
+    pygame.display.flip()
+    clock.tick(20)
+                
+pygame.quit()
