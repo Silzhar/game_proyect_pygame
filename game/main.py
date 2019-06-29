@@ -1,6 +1,7 @@
 import pygame
 import player
 import walls
+import sys
 
 from pygame.locals import *
 
@@ -59,3 +60,4 @@ while game_over == False:
     clock.tick(20)
                 
 pygame.quit()
+sys.exit()
