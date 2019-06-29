@@ -22,14 +22,19 @@ class Game(pygame.sprite.Sprite):
         self.wallsSprite.image = self.wallsBg
         self.wallsSprite.rect = self.wallsBg.get_rect()
         
+        '''
         
+    def Collisions(self):
+        self.collisions = pygame.sprite.collide_rect(self.wallsSprite, player)
+        if self.collisions == True :
+            player.update( player) == None   '''
 
 #wallsLimits = walls.Limits((0, 0))
 #wallsLimits = walls
 #wallsLimits = pygame.sprite.Sprite()
 # wallsLimits = walls.get_rect()
 
-
+ 
 #collisions = pygame.sprite.collide_rect(self.wallsSprite, player)
 
     
@@ -46,9 +51,11 @@ class Game(pygame.sprite.Sprite):
             
            # walls.Limits((0, 0))            
             self.player.handle_event(event)
+           # self.Collisions()
             self.screen.blit(self.background, (0, 0))    # screen.blit(walls, (0, 0))
         
            # screen.blit(walls, walls.rect)
+           # self.screen.blit(self.Collisions)
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
             
