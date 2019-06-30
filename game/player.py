@@ -9,14 +9,16 @@ class Executus(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = position
         self.frame = 0
-        
-      
+         
                                                     
         self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
         self.up_states = { 0: ( 0, 30, 30, 30 ), 1: (32 , 30, 30, 30), 2: (64 , 30, 30, 30)}
         self.down_states = { 0: ( 0, 60, 30, 30 ), 1: (32 , 60, 30, 30), 2: (64 , 60, 30, 30)}
         self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
+        
+       # self.right = 0
+       # self.rect = pygame.sprite.collide_rect(self.rect.colliderect(self.right.rect))
         
     
     def get_frame(self, frame_set):

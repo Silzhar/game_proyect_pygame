@@ -26,13 +26,30 @@ class Game(pygame.sprite.Sprite):
         
     def Collisions(self):
         self.collisions.rect = pygame.sprite.collide_rect(self.wallsSprite, player)
-        if self.collisions.rect == True :
-            player.handle_event( player) == None   
-
-#wallsLimits = walls.Limits((0, 0))
-#wallsLimits = walls
-#wallsLimits = pygame.sprite.Sprite()
-# wallsLimits = walls.get_rect()
+        self.collisionWallsSprite = pygame.sprite.Group()
+        self.collisionWallsSprite.add(self.wallsSprite)
+        
+        self.collisionPlayer = pygame.sprite.Group()
+        self.collisionPlayer = self.Rect.contains(self.center)
+        self.collisionPlayer.add(player)
+        
+        
+        self.shock = pygame.spritecollide(self.collisionWallsSprite, self.collisionPlayer, True)
+        
+        if self.shock:
+            self.player.handle_event(event) == None
+   
+            
+            
+        '''  
+                    if self.collisions.rect == True :
+            player.handle_event( player) == None
+            
+            
+        wallsLimits = walls.Limits((0, 0))
+        wallsLimits = walls
+        wallsLimits = pygame.sprite.Sprite()
+        wallsLimits = walls.get_rect()  '''
 
   
     def start(self):
@@ -45,13 +62,13 @@ class Game(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
                     
-            
-           # walls.Limits((0, 0))            
+
+          # self.Collisions()    
             self.player.handle_event(event)
-            self.Collisions()
             self.screen.blit(self.background, (0, 0))    # screen.blit(walls, (0, 0))
         
            # screen.blit(walls, walls.rect)
+           # walls.Limits((0, 0)) 
             
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
