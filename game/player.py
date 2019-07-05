@@ -3,6 +3,7 @@ import pygame
 
 class Executus(pygame.sprite.Sprite):
     def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)
         self.sheet = pygame.image.load('spliteCat.png')
         self.sheet.set_clip(pygame.Rect(0, 0, 30, 30))
         self.image = self.sheet.subsurface(self.sheet.get_clip())
@@ -17,8 +18,8 @@ class Executus(pygame.sprite.Sprite):
         self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
         
-       # self.right = 0
-       # self.rect = pygame.sprite.collide_rect(self.rect.colliderect(self.right.rect))
+      #  self.right = self.sheet.set_clip()
+       # self.rect = pygame.sprite.collide_rect(self.sheet.set_clip, self.image ) # self.rect.colliderect(self.right.rect)
         
     
     def get_frame(self, frame_set):

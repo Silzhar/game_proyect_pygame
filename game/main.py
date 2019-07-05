@@ -15,6 +15,7 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         self.player = player.Executus((width_window/10, height_window/4))
+        
 
         self.wallsBg = pygame.image.load('walls.png')
         self.wallsSprite = pygame.sprite.Sprite()
@@ -24,13 +25,13 @@ class Game(pygame.sprite.Sprite):
         
         
     def Collisions(self):
-        self.collisions.rect = pygame.sprite.collide_rect(self.wallsSprite, player)
+        self.collisions.rect = pygame.sprite.collide_rect(self.wallsSprite, player.Executus(width_window/10, height_window/4))
         self.collisionWallsSprite = pygame.sprite.Group()
         self.collisionWallsSprite.add(self.wallsSprite)
         
         self.collisionPlayer = pygame.sprite.Group()
         self.collisionPlayer = self.Rect.contains(self.center)
-        self.collisionPlayer.add(player)
+        self.collisionPlayer.add(player.Executus(width_window/10, height_window/4))
         
         
         self.shock = pygame.spritecollide(self.collisionWallsSprite, self.collisionPlayer, True)
@@ -51,7 +52,7 @@ class Game(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
                     
-  
+            self.Collisions()
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
             
