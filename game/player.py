@@ -18,7 +18,7 @@ class Executus(pygame.sprite.Sprite):
         self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
         
-      #  self.right = self.sheet.set_clip()
+        
        # self.rect = pygame.sprite.collide_rect(self.sheet.set_clip, self.image ) # self.rect.colliderect(self.right.rect)
         
     

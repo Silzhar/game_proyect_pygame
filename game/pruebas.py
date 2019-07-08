@@ -16,7 +16,7 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         self.player = player.Executus((width_window/10, height_window/4))
-    #    self.player.rect = player.Executus(self.rect)
+        self.player.rect  # asi encuentra el rectangulo del player
 
         self.wallsBg = pygame.image.load('walls.png')
         self.wallsSprite = pygame.sprite.Sprite()

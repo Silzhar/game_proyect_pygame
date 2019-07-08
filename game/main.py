@@ -15,6 +15,7 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         self.player = player.Executus((width_window/10, height_window/4))
+        self.player.rect = self.player.get_rect()
         
 
         self.wallsBg = pygame.image.load('walls.png')
@@ -52,7 +53,7 @@ class Game(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
                     
-            self.Collisions()
+          #  self.Collisions()
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
             
