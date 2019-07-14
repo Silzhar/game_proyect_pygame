@@ -1,4 +1,4 @@
-
+import pruebas 
 import pygame
 
 class Executus(pygame.sprite.Sprite):
@@ -10,6 +10,8 @@ class Executus(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = position
         self.frame = 0
+        
+        self.limits = pruebas.Game.Collisions
          
                                                     
         self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
@@ -60,6 +62,10 @@ class Executus(pygame.sprite.Sprite):
             self.clip(self.down_states[0])
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
+        
+        
+            
+        
 
 
     def handle_event(self, event):

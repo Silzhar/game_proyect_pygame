@@ -16,7 +16,8 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         self.player = player.Executus((width_window/10, height_window/4))
-        self.player.rect = player.Executus  # asi encuentra el rectangulo del player
+        self.player.update  # asi deberia encontrar el rectangulo del player
+        
 
         self.wallsBg = pygame.image.load('walls.png')
         self.wallsSprite = pygame.sprite.Sprite()
@@ -25,33 +26,29 @@ class Game(pygame.sprite.Sprite):
         
         
         
-    def Collisions(self):
-        self.collisions.rect = pygame.sprite.collide_rect(self.wallsSprite, self.player.rect)
+    def Collisions(self, direction,  position=0):
         self.collisionWallsSprite = pygame.sprite.Group()
         self.collisionWallsSprite.add(self.wallsSprite)
-        
         self.collisionPlayer = pygame.sprite.Group()
-        self.collisionPlayer = self.Rect.contains(self.center)
-        self.collisionPlayer.add(self.player.rect)
+        self.collisionPlayer.add(self.player)
         
+        while self.collisionPlayer in self.collisionWallsSprite:
+            if self.player.update == direction:
+                if direction == 'left':
+                    self.clip(self.left_states)
+                    self.rect.x -= position
+                if direction == 'right':
+                    self.clip(self.right_states)
+                    self.rect.x += position
+                if direction == 'up':
+                    self.clip(self.up_states)
+                    self.rect.y -= position
+                if direction == 'down':
+                    self.clip(self.down_states)
+                    self.rect.y += position
+                    
         
-        self.shock = pygame.spritecollide(self.collisionWallsSprite, self.collisionPlayer, False)
-        
-        if self.shock:
-            self.player.handle_event(event) == None
-   
-            
-            
-        '''  
-                    if self.collisions.rect == True :
-            player.handle_event( player) == None
-            
-            
-        wallsLimits = walls.Limits((0, 0))
-        wallsLimits = walls
-        wallsLimits = pygame.sprite.Sprite()
-        wallsLimits = walls.get_rect()  '''
-
+                   
   
     def start(self):
         self.game_over = False
@@ -64,7 +61,7 @@ class Game(pygame.sprite.Sprite):
                     sys.exit()
                     
 
-            self.Collisions()    
+            self.Collisions(self.player.update)    
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    # screen.blit(walls, (0, 0))
         

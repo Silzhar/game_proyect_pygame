@@ -31,7 +31,7 @@ class Game(pygame.sprite.Sprite):
         self.collisionWallsSprite.add(self.wallsSprite)
         
         self.collisionPlayer = pygame.sprite.Group()
-        self.collisionPlayer = self.Rect.contains(self.center)
+     #   self.collisionPlayer = self.Rect.contains(self.center)
         self.collisionPlayer.add(player.Executus(width_window/10, height_window/4))
         
         
