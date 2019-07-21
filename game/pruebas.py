@@ -26,7 +26,7 @@ class Game(pygame.sprite.Sprite):
         
         
         
-    def Collisions(self, direction,  position=0):
+    def Collisions(self, direction):
         self.collisionWallsSprite = pygame.sprite.Group()
         self.collisionWallsSprite.add(self.wallsSprite)
         self.collisionPlayer = pygame.sprite.Group()
@@ -36,16 +36,16 @@ class Game(pygame.sprite.Sprite):
             if self.player.update == direction:
                 if direction == 'left':
                     self.clip(self.left_states)
-                    self.rect.x -= position
+                    self.rect.x -= 0
                 if direction == 'right':
                     self.clip(self.right_states)
-                    self.rect.x += position
+                    self.rect.x += 0
                 if direction == 'up':
                     self.clip(self.up_states)
-                    self.rect.y -= position
+                    self.rect.y -= 0
                 if direction == 'down':
                     self.clip(self.down_states)
-                    self.rect.y += position
+                    self.rect.y += 0
                     
         
                    
@@ -60,8 +60,8 @@ class Game(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
                     
-
-            self.Collisions(self.player.update)    
+            self.Collisions(self.player.update )
+            self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    # screen.blit(walls, (0, 0))
         
