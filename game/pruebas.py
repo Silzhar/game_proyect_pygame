@@ -9,6 +9,11 @@ class Game(pygame.sprite.Sprite):
     def __init__(self): 
         width_window = 1040
         height_window = 704
+        
+        pygame.mixer.init()
+        pygame.mixer.music.load('gameLoops.mp3')
+        pygame.mixer.music.play(-1)
+    
              
         self.screen = pygame.display.set_mode((width_window, height_window))
         self.background = pygame.image.load('indoor.png')

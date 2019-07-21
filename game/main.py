@@ -1,5 +1,5 @@
 import pygame , sys
-import player 
+import player
 from pygame.locals import *
 
 
@@ -8,6 +8,11 @@ class Game(pygame.sprite.Sprite):
     def __init__(self): 
         width_window = 1040
         height_window = 704
+        
+        pygame.mixer.init()
+        pygame.mixer.music.load('gameLoops.mp3')
+        pygame.mixer.music.play(-1)
+    
              
         self.screen = pygame.display.set_mode((width_window, height_window))
         self.background = pygame.image.load('indoor.png')
@@ -15,7 +20,7 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         self.player = player.Executus((width_window/10, height_window/4))
-        self.player.rect = self.player.get_rect()
+        self.player.update  
         
 
         self.wallsBg = pygame.image.load('walls.png')
@@ -25,23 +30,29 @@ class Game(pygame.sprite.Sprite):
         
         
         
-    def Collisions(self):
-        self.collisions.rect = pygame.sprite.collide_rect(self.wallsSprite, player.Executus(width_window/10, height_window/4))
+    def Collisions(self, direction):
         self.collisionWallsSprite = pygame.sprite.Group()
         self.collisionWallsSprite.add(self.wallsSprite)
-        
         self.collisionPlayer = pygame.sprite.Group()
-     #   self.collisionPlayer = self.Rect.contains(self.center)
-        self.collisionPlayer.add(player.Executus(width_window/10, height_window/4))
+        self.collisionPlayer.add(self.player)
         
+        while self.collisionPlayer in self.collisionWallsSprite:
+            if self.player.update == direction:
+                if direction == 'left':
+                    self.clip(self.left_states)
+                    self.rect.x -= 0
+                if direction == 'right':
+                    self.clip(self.right_states)
+                    self.rect.x += 0
+                if direction == 'up':
+                    self.clip(self.up_states)
+                    self.rect.y -= 0
+                if direction == 'down':
+                    self.clip(self.down_states)
+                    self.rect.y += 0
+                    
         
-        self.shock = pygame.spritecollide(self.collisionWallsSprite, self.collisionPlayer, True)
-        
-        if self.shock:
-            self.player.handle_event(event) == None
-   
-            
-
+                   
   
     def start(self):
         self.game_over = False
@@ -53,14 +64,17 @@ class Game(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
                     
-          #  self.Collisions()
+            self.Collisions(self.player.update )
+            self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
-            
+        
+          
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
  
         
+                
             pygame.display.flip()
             self.clock.tick(20)
                     
