@@ -12,6 +12,8 @@ class Game(pygame.sprite.Sprite):
         pygame.mixer.init()
         pygame.mixer.music.load('gameLoops.mp3')
         pygame.mixer.music.play(-1)
+        
+        self.executusMeow = pygame.mixer.Sound('Cat_Meow.wav')
     
              
         self.screen = pygame.display.set_mode((width_window, height_window))

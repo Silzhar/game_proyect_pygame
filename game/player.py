@@ -1,4 +1,4 @@
-import pruebas 
+
 import pygame
 
 class Executus(pygame.sprite.Sprite):
@@ -11,7 +11,7 @@ class Executus(pygame.sprite.Sprite):
         self.rect.topleft = position
         self.frame = 0
         
-        self.limits = pruebas.Game.Collisions
+        
          
                                                     
         self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
@@ -21,7 +21,7 @@ class Executus(pygame.sprite.Sprite):
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
         
         
-       # self.rect = pygame.sprite.collide_rect(self.sheet.set_clip, self.image ) # self.rect.colliderect(self.right.rect)
+     
         
     
     def get_frame(self, frame_set):
@@ -71,6 +71,7 @@ class Executus(pygame.sprite.Sprite):
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             game_over = True
+            self.pause= False
 
         if event.type == pygame.KEYDOWN:
 
@@ -82,6 +83,8 @@ class Executus(pygame.sprite.Sprite):
                 self.update('up')
             if event.key == pygame.K_DOWN:
                 self.update('down')
+            
+                
 
         if event.type == pygame.KEYUP:
 

@@ -30,6 +30,17 @@ class Game(pygame.sprite.Sprite):
         self.wallsSprite.rect = self.wallsBg.get_rect()
         
         
+    def Pause(self, event):
+        width_window = 1020
+        height_window = 680
+        
+        self.pauseScreen = pygame.display.set_mode((width_window, height_window)) 
+        self.backgroundPause = pygame.image.load('E&A relieve color.jpg')
+        self.fontPause = pygame.font.Font('font.ttf', 48)
+        self.fontPause.render("- PAUSE -",1,(255, 255, 0))
+        
+             
+        
         
     def Collisions(self, direction):
         self.collisionWallsSprite = pygame.sprite.Group()
@@ -65,6 +76,7 @@ class Game(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
                     
+            self.Pause(pygame.K_SPACE)       
             self.Collisions(self.player.update )
             self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
