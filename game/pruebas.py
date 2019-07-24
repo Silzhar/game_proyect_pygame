@@ -111,7 +111,7 @@ class Game(pygame.sprite.Sprite):
         pygame.mixer.init()
         pygame.mixer.music.load('gameLoops.mp3')
         pygame.mixer.music.play(-1)
-    
+        
              
         self.screen = pygame.display.set_mode((width_window, height_window))
         self.background = pygame.image.load('indoor.png')
@@ -128,10 +128,7 @@ class Game(pygame.sprite.Sprite):
         self.wallsSprite.rect = self.wallsBg.get_rect()
         
 
-
-             
-        
-        
+                    
     def Collisions(self, spriteGroup):
         direction = Executus
         self.collisionWallsSprite = pygame.sprite.Group()
@@ -159,9 +156,29 @@ class Game(pygame.sprite.Sprite):
                     self.rect.y += 0
                     
         
-                   
+    def Pause(self):
+        self.pause == True
+        width_window = 1000
+        height_window = 680
+        
+        while self.pause == True:
+            self.screen = pygame.display.set_mode((width_window, height_window))
+            self.background = pygame.image.load('E&A relieve color.jpg')
+            pygame.display.set_caption("PAUSE")
+            self.fuente = pygame.font.Font('font.ttf', 48) 
+            self.fuente.render(" - PAUSE - ", 1, (255, 255, 0))
+            
+            pygame.display.update()
+            
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.pause = False
+                    if event.key == pygame.K_SPACE:
+                       self.Pause()
+                
   
-    def start(self):
+ #   def start(self):
         self.game_over = False
         
         while self.game_over == False:
@@ -170,17 +187,17 @@ class Game(pygame.sprite.Sprite):
                     self.game_over = True
                     pygame.quit()
                     sys.exit()
-                    
+                    self.Pause()
                 
            # self.Collisions(self.player.update )
           #  self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    # screen.blit(walls, (0, 0))
-            self.player.Collisions(self.allSprites)
+          #  self.player.Collisions(self.allSprites)
         
            # screen.blit(walls, walls.rect)
            # walls.Limits((0, 0)) 
-            
+       #     self.Pause()
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
  
@@ -188,13 +205,14 @@ class Game(pygame.sprite.Sprite):
                 
             pygame.display.flip()
             self.clock.tick(20)
-                    
+                
         
 
 if __name__ == '__main__':
     pygame.init()
     game = Game()
-    game.start()
+#    game.start()
+    game.Pause()
 
     
 '''
