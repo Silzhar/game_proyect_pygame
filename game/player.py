@@ -64,8 +64,7 @@ class Executus(pygame.sprite.Sprite):
         self.image = self.sheet.subsurface(self.sheet.get_clip())
         
         
-            
-        
+
 
 
     def handle_event(self, event):
