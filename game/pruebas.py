@@ -32,7 +32,7 @@ class Game(pygame.sprite.Sprite):
         
         
         
-    def Collisions(self):
+    def Collisions(self):  # is near !! search where it donesn't connect whith the debugger
         direction = 0
         
         self.collisionWallsSprite = pygame.sprite.Group()
