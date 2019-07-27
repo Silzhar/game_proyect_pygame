@@ -39,8 +39,8 @@ class Game(pygame.sprite.Sprite):
         self.collisionWallsSprite.add(self.wallsSprite)
         self.collisionPlayer = pygame.sprite.Group()
         self.collisionPlayer.add(self.player)   
-        
-        if pygame.sprite.groupcollide(self.collisionPlayer, self.collisionWallsSprite,False,False, collided=None):
+        self.shock = pygame.sprite.groupcollide(self.collisionPlayer, self.collisionWallsSprite,False,False, collided=None)
+        if self.shock:
             if self.player.update:
                 if direction == 'left':
                     self.clip(self.left_states)
@@ -55,7 +55,7 @@ class Game(pygame.sprite.Sprite):
                     self.clip(self.down_states)
                     self.rect.y += 0
                     
-        
+        return self.shock
                    
   
     def start(self):
@@ -67,7 +67,8 @@ class Game(pygame.sprite.Sprite):
                     self.game_over = True
                     pygame.quit()
                     sys.exit()
-                    
+             
+            
             self.Collisions()
             self.player.update(self.Collisions())   
             self.player.handle_event(event)
