@@ -10,13 +10,14 @@ class Game(pygame.sprite.Sprite):
         height_window = 704
         
         pygame.mixer.init()
-        pygame.mixer.music.load('gameLoops.mp3')
+        pygame.mixer.music.load('gameLoops.mp3')   #  background music
         pygame.mixer.music.play(-1)
         
-        self.executusMeow = pygame.mixer.Sound('Cat_Meow.wav')
+        self.executusMeow = pygame.mixer.Sound('Cat_Meow.wav')    #  cat sound
     
-             
-        self.screen = pygame.display.set_mode((width_window, height_window))
+
+        # GAME SCREEN  
+        self.screen = pygame.display.set_mode((width_window, height_window))   
         self.background = pygame.image.load('indoor.png')
         pygame.display.set_caption("Executus time !")
         self.clock = pygame.time.Clock() 
