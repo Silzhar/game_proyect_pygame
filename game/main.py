@@ -1,45 +1,46 @@
-import pygame , sys
+import pygame as PG, sys
 import player
 from pygame.locals import *
 
 
-class Game(pygame.sprite.Sprite):
+class Game(PG.sprite.Sprite):
     
     def __init__(self): 
         width_window = 1040
         height_window = 704
         
-        pygame.mixer.init()
-        pygame.mixer.music.load('gameLoops.mp3')   #  background music
-        pygame.mixer.music.play(-1)
+        PG.mixer.init()
+        PG.mixer.music.load('gameLoops.mp3')   #  background music
+        PG.mixer.music.play(-1)
         
-        self.executusMeow = pygame.mixer.Sound('Cat_Meow.wav')    #  cat sound
+        self.executusMeow = PG.mixer.Sound('Cat_Meow.wav')    #  cat sound
     
 
         # GAME SCREEN  
-        self.screen = pygame.display.set_mode((width_window, height_window))   
-        self.background = pygame.image.load('indoor.png')
-        pygame.display.set_caption("Executus time !")
-        self.clock = pygame.time.Clock() 
+        self.screen = PG.display.set_mode((width_window, height_window))   
+        self.background = PG.image.load('indoor.png')
+        PG.display.set_caption("Executus time !")
+        self.clock = PG.time.Clock() 
 
         self.player = player.Executus((width_window/10, height_window/4))
         self.player.update  
         
 
-        self.wallsBg = pygame.image.load('walls.png')
-        self.wallsSprite = pygame.sprite.Sprite()
+        self.wallsBg = PG.image.load('walls.png')
+        self.wallsSprite = PG.sprite.Sprite()
         self.wallsSprite.image = self.wallsBg
         self.wallsSprite.rect = self.wallsBg.get_rect()
         
         
         
     def Collisions(self, direction):
-        self.collisionWallsSprite = pygame.sprite.Group()
+        self.collisionWallsSprite = PG.sprite.Group()
         self.collisionWallsSprite.add(self.wallsSprite)
-        self.collisionPlayer = pygame.sprite.Group()
+        self.collisionPlayer = PG.sprite.Group()
         self.collisionPlayer.add(self.player)
         
-        while self.collisionPlayer in self.collisionWallsSprite:
+        '''
+        for self.collisionPlayer in self.collisionWallsSprite:
             if self.player.update == direction:
                 if direction == 'left':
                     self.clip(self.left_states)
@@ -52,7 +53,7 @@ class Game(pygame.sprite.Sprite):
                     self.rect.y -= 0
                 if direction == 'down':
                     self.clip(self.down_states)
-                    self.rect.y += 0
+                    self.rect.y += 0   '''
                     
         
                    
@@ -61,13 +62,29 @@ class Game(pygame.sprite.Sprite):
         self.game_over = False
         
         while self.game_over == False:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+            for event in PG.event.get():
+                if event.type == PG.QUIT:
                     self.game_over = True
-                    pygame.quit()
+                    PG.quit()
                     sys.exit()
                     
-            self.Collisions(self.player.update )
+            if self.Collisions(self.player.update):
+                direction = self.player.handle_event
+                if self.player.update == direction:
+                    if direction == 'left':
+                        self.clip(self.left_states)
+                        self.rect.x -= 0
+                    if direction == 'right':
+                        self.clip(self.right_states)
+                        self.rect.x += 0
+                    if direction == 'up':
+                        self.clip(self.up_states)
+                        self.rect.y -= 0
+                    if direction == 'down':
+                        self.clip(self.down_states)
+                        self.rect.y += 0
+
+            PG.sprite.pygame.sprite.spritecollide(self.player, self.Collisions, False, collided = None)
             self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
@@ -78,12 +95,12 @@ class Game(pygame.sprite.Sprite):
  
         
                 
-            pygame.display.flip()
+            PG.display.flip()
             self.clock.tick(20)
                     
         
 
 if __name__ == '__main__':
-    pygame.init()
+    PG.init()
     game = Game()
     game.start()
