@@ -3,6 +3,28 @@ import player
 from pygame.locals import *
 
 
+class ScreenPresentation(pygame.sprite.Sprite):
+    def __init__(self):
+        width_window = 1020
+        height_window = 680
+
+        
+        self.initialScreen = pygame.display.set_mode((width_window, height_window)) 
+        self.backgroundInitial = pygame.image.load('E&A relieve color.jpg')
+        self.fontInitial = pygame.font.Font('font.ttf', 48)
+        self.fontInitial.render("- PAUSE -",1,(255, 255, 0))
+
+        def handle_eventInital(self, event):
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    sys.exit()
+        
+        
+
+
+
+
+
 class Collisions(pygame.sprite.Sprite):  # is near !! search where it donesn't connect whith the debugger
     
     def __init__(self):
@@ -99,7 +121,7 @@ class Game(pygame.sprite.Sprite):
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
         
-          
+            ScreenPresentation()
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
  
