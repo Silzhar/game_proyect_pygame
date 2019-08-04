@@ -1,6 +1,7 @@
 import pygame as PG, sys
 import player
 from pygame.locals import *
+import pygame.event as GAME_EVENTS
 
 
 class Game(PG.sprite.Sprite):
@@ -55,11 +56,12 @@ class Game(PG.sprite.Sprite):
                     self.clip(self.down_states)
                     self.rect.y += 0   '''
                     
-        
+       
                    
   
     def start(self):
         self.game_over = False
+        self.game_started = False
         
         while self.game_over == False:
             for event in PG.event.get():
@@ -67,7 +69,13 @@ class Game(PG.sprite.Sprite):
                     self.game_over = True
                     PG.quit()
                     sys.exit()
-                    
+
+
+            if self.game_started is True:
+                
+
+
+
             if self.Collisions(self.player.update):
                 direction = self.player.handle_event
                 if self.player.update == direction:
@@ -84,7 +92,7 @@ class Game(PG.sprite.Sprite):
                         self.clip(self.down_states)
                         self.rect.y += 0
 
-            PG.sprite.pygame.sprite.spritecollide(self.player, self.Collisions, False, collided = None)
+        #    PG.sprite.pygame.sprite.spritecollide(self.player,self.wallsSprite, False, collided = None)
             self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
@@ -95,7 +103,7 @@ class Game(PG.sprite.Sprite):
  
         
                 
-            PG.display.flip()
+            PG.display.flip()  # update all game screen
             self.clock.tick(20)
                     
         

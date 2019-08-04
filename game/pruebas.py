@@ -1,37 +1,16 @@
 import pygame , sys
 import player
 from pygame.locals import *
-
-
-class ScreenPresentation(pygame.sprite.Sprite):
-    def __init__(self):
-        width_window = 1020
-        height_window = 680
-
-        
-        self.initialScreen = pygame.display.set_mode((width_window, height_window)) 
-        self.backgroundInitial = pygame.image.load('E&A relieve color.jpg')
-        self.fontInitial = pygame.font.Font('font.ttf', 48)
-        self.fontInitial.render("- PAUSE -",1,(255, 255, 0))
-
-        def handle_eventInital(self, event):
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    sys.exit()
-        
-        
-
-
+import pygame.event as GAME_EVENTS
 
 
 
 class Collisions(pygame.sprite.Sprite):  # is near !! search where it donesn't connect whith the debugger
-    
+
     def __init__(self):
         width_window = 1040
         height_window = 704
         direction = 0
-        
 
         self.player = player.Executus((width_window/10, height_window/4))
         self.player.update 
@@ -96,8 +75,24 @@ class Game(pygame.sprite.Sprite):
         self.wallsSprite.image = self.wallsBg
         self.wallsSprite.rect = self.wallsBg.get_rect()
         
+        '''
+        def ScreenPresentation(self):
+            width_window = 1020
+            height_window = 680   
 
         
+        self.initialScreen = pygame.display.set_mode((1020, 680)) 
+        self.backgroundInitial = pygame.image.load('E&A relieve color.jpg')
+        pygame.display.set_caption("PLAY !")
+        self.clock = pygame.time.Clock()
+        self.fontInitial = pygame.font.Font('font.ttf', 48)
+        self.fontInitial.render("- PAUSE -",1,(255, 255, 0))   '''
+
+
+    def handle_eventInital(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                sys.exit()
         
         
         
@@ -107,7 +102,7 @@ class Game(pygame.sprite.Sprite):
         self.game_over = False      
 
         while self.game_over == False:
-            for event in pygame.event.get():
+            for event in pygame.event.get():  
                 if event.type == pygame.QUIT:
                     self.game_over = True
                     pygame.quit()
@@ -120,10 +115,11 @@ class Game(pygame.sprite.Sprite):
 
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
-        
-            ScreenPresentation()
+
+            
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
+         #   self.initialScreen.blit(self.backgroundInitial, (80,80))
  
         
                 
