@@ -60,7 +60,7 @@ class Game(PG.sprite.Sprite):
         self.spriteList = PG.sprite.Group()
         self.shock = PG.sprite.pygame.sprite.spritecollide(self.player, self.collisionWallsSprite, False) # collided = None
        
-        if self.shock == False:
+        for self.shock in self.spriteList:
             print("colision !!!!!!!")
             direction = self.player.handle_event
             if self.player.update == direction:
@@ -95,7 +95,7 @@ class Game(PG.sprite.Sprite):
                       
             
             
-
+            self.Collisions(self.player, self.walls)
             self.player.update(self.Collisions(self.player, self.walls))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
