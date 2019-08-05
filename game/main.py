@@ -7,7 +7,7 @@ import pygame.event as GAME_EVENTS
 class Game(PG.sprite.Sprite):
     
     def __init__(self): 
-        width_window = 1040
+        width_window = 1040 
         height_window = 704
         
         PG.mixer.init()
@@ -55,8 +55,18 @@ class Game(PG.sprite.Sprite):
                 if direction == 'down':
                     self.clip(self.down_states)
                     self.rect.y += 0   '''
+
                     
-       
+    def reStart(self):
+        
+        self.screen.blit(self.background, (0, 0))
+
+        self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
+        self.screen.blit(self.player.image, self.player.rect)
+
+        PG.display.flip()  # update all game screen
+        self.clock.tick(20)
+
                    
   
     def start(self):
@@ -70,8 +80,11 @@ class Game(PG.sprite.Sprite):
                     PG.quit()
                     sys.exit()
 
-
-            if self.game_started is True:
+            if event.type == PG.KEYDOWN:
+                if event.key == PG.K_SPACE:
+                    if self.game_started == False:
+                        self.reStart()
+                        self.game_started = True
                 
 
 
@@ -93,15 +106,14 @@ class Game(PG.sprite.Sprite):
                         self.rect.y += 0
 
         #    PG.sprite.pygame.sprite.spritecollide(self.player,self.wallsSprite, False, collided = None)
-            self.player.update(self.Collisions(self.player))   
-            self.player.handle_event(event)
-            self.screen.blit(self.background, (0, 0))    
+            self.player.update(self.Collisions(self.player))  
+            self.player.handle_event(event) 
+                
         
           
-            self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
-            self.screen.blit(self.player.image, self.player.rect)
+            
  
-        
+            self.reStart()
                 
             PG.display.flip()  # update all game screen
             self.clock.tick(20)
