@@ -54,12 +54,14 @@ class Game(PG.sprite.Sprite):
     def Collisions(self, player, walls):
         self.collisionWallsSprite = PG.sprite.Group()
         self.collisionWallsSprite.add(self.walls.wallsSprite)
-        self.collisionPlayer = PG.sprite.Group()
-        self.collisionPlayer.add(self.player)
+    #    self.collisionPlayer = PG.sprite.Group()
+     #   self.collisionPlayer.add(self.player)
 
         self.spriteList = PG.sprite.Group()
-
-        if self.collisionPlayer == self.collisionWallsSprite:
+        self.shock = PG.sprite.pygame.sprite.spritecollide(self.player, self.collisionWallsSprite, False) # collided = None
+       
+        if self.shock == False:
+            print("colision !!!!!!!")
             direction = self.player.handle_event
             if self.player.update == direction:
                 if direction == 'left':
@@ -74,6 +76,7 @@ class Game(PG.sprite.Sprite):
                 if direction == 'down':
                     self.clip(self.down_states)
                     self.rect.y += 0
+
 
 
                          
@@ -91,6 +94,8 @@ class Game(PG.sprite.Sprite):
         #    if (self.player.colliderect(self.wallsSprite.rect)):
                       
             
+            
+
             self.player.update(self.Collisions(self.player, self.walls))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
