@@ -15,6 +15,10 @@ class Game(PG.sprite.Sprite):
         PG.mixer.music.play(-1)
         
         self.executusMeow = PG.mixer.Sound('Cat_Meow.wav')    #  cat sound
+
+        self.initialScreen = PG.display.set_mode((1020, 680)) 
+        self.backgroundInitial = PG.image.load('E&A relieve color.jpg')
+        self.initialScreen = self.backgroundInitial
     
 
         # GAME SCREEN  
@@ -112,7 +116,7 @@ class Game(PG.sprite.Sprite):
         
           
             
- 
+            PG.surface.blit(self.initialScreen)
             self.reStart()
                 
             PG.display.flip()  # update all game screen
