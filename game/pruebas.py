@@ -60,22 +60,23 @@ class Game(PG.sprite.Sprite):
         self.spriteList = PG.sprite.Group()
         self.shock = PG.sprite.pygame.sprite.spritecollide(self.player, self.collisionWallsSprite, False) # collided = None
        
-        for self.shock in self.spriteList:
+        for self.player in self.shock: # go throug !
             print("colision !!!!!!!")
-            direction = self.player.handle_event
-            if self.player.update == direction:
-                if direction == 'left':
-                    self.clip(self.left_states)
-                    self.rect.x -= 0
-                if direction == 'right':
-                    self.clip(self.right_states)
-                    self.rect.x += 0
-                if direction == 'up':
-                    self.clip(self.up_states)
-                    self.rect.y -= 0
-                if direction == 'down':
-                    self.clip(self.down_states)
-                    self.rect.y += 0
+            direction = self.player.handle_event(event)  # repair 
+            if self.player == direction:        # .update
+                if PG.KEYDOWN:   
+                    if direction == 'left':
+                        self.clip(self.left_states)
+                        self.rect.x -= 0
+                    if direction == 'right':
+                        self.clip(self.right_states)
+                        self.rect.x += 0
+                    if direction == 'up':
+                        self.clip(self.up_states)
+                        self.rect.y -= 0
+                    if direction == 'down':
+                        self.clip(self.down_states)
+                        self.rect.y += 0
 
 
 
