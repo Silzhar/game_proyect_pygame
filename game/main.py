@@ -6,11 +6,22 @@ import pygame.event as GAME_EVENTS
 class Menu():
     def __init__(self, options): # initial  options
         self.options = options
-        self.select = False
+        self.totalOptions = len(self.options)
+        self.select = 0
         self.pressed = False
     
-    def actualize(self): # change the value of self.pressed with the directional
-        pass
+    def actualize(self):   # change the value of self.pressed with the directional
+        myKey = PG.key.get_pressed()
+
+        if not self.pressed:
+            if myKey.K_UP:
+                self.select -= 1
+            elif PG.K_DOWN:
+                self.select += 1
+            elif myKey.K_RETURN:  # invokes the function associated with the option
+                title, function = self.options[self.select]
+                print("select option :")
+
 
 
     def menuWindow(self, screen):
@@ -21,6 +32,11 @@ class Menu():
         self.backgroundInitial = PG.image.load('E&A relieve color.jpg')
         self.fontInitial = PG.font.Font('font.ttf', 48)
         self.fontInitial.render("- PAUSE -",1,(255, 255, 0))
+
+
+    def menuExit(self):
+        sys.exit(0)
+
 
 
 
@@ -99,7 +115,7 @@ class Game(PG.sprite.Sprite):
                     sys.exit()
 
             
-            self.reStart(Game)
+         #   self.reStart(Game)
             self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
@@ -119,4 +135,10 @@ if __name__ == '__main__':
     PG.init()
     game = Game()
     game.start()
+    menu = Menu(options)
+    options = [
+            ('PLAY', game),
+            ('OPTIONS'),  # , optionsMenu
+            ('EXIT', menu.menuExit)
+        ]
 
