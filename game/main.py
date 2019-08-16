@@ -3,6 +3,25 @@ import player
 from pygame.locals import *
 import pygame.event as GAME_EVENTS
 
+class Menu():
+    def __init__(self, options): # initial  options
+        self.options = options
+        self.select = False
+        self.pressed = False
+    
+    def actualize(self): # change the value of self.pressed with the directional
+        pass
+
+
+    def menuWindow(self, screen):
+        width_window = 1020
+        height_window = 680   
+
+        self.initialScreen = PG.display.set_mode((width_window, height_window)) 
+        self.backgroundInitial = PG.image.load('E&A relieve color.jpg')
+        self.fontInitial = PG.font.Font('font.ttf', 48)
+        self.fontInitial.render("- PAUSE -",1,(255, 255, 0))
+
 
 
 class Game(PG.sprite.Sprite):
@@ -41,10 +60,20 @@ class Game(PG.sprite.Sprite):
         self.collisionPlayer = PG.sprite.Group()
         self.collisionPlayer.add(self.player)
 
-        
+    '''    
     def reStart(self, event):
+        width_window = 1020
+        height_window = 680   
+
+        self.initialScreen = PG.display.set_mode((width_window, height_window)) 
+        self.backgroundInitial = PG.image.load('E&A relieve color.jpg')
+        self.clock = PG.time.Clock()
+        self.fontInitial = PG.font.Font('font.ttf', 48)
+        self.fontInitial.render("- PAUSE -",1,(255, 255, 0))
+
+    
         self.game_started = False
-        self.screen.blit(self.background, (0, 0))
+     #   self.screenReStart = PG.display.set_mode( (0, 0))
 
         self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
         self.screen.blit(self.player.image, self.player.rect)
@@ -55,7 +84,7 @@ class Game(PG.sprite.Sprite):
                 if self.game_started == False:
                     self.game_started == True
                 else:
-                    self.game_started == False
+                    self.game_started == False  '''
         
                    
   
