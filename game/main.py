@@ -40,8 +40,22 @@ class Game(PG.sprite.Sprite):
         self.collisionWallsSprite.add(self.wallsSprite)
         self.collisionPlayer = PG.sprite.Group()
         self.collisionPlayer.add(self.player)
+
         
-     
+    def reStart(self, event):
+        self.game_started = False
+        self.screen.blit(self.background, (0, 0))
+
+        self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
+        self.screen.blit(self.player.image, self.player.rect)
+
+
+        if self.player.handle_event == PG.KEYDOWN:
+            if event.key == PG.K_SPACE:
+                if self.game_started == False:
+                    self.game_started == True
+                else:
+                    self.game_started == False
         
                    
   
@@ -56,7 +70,7 @@ class Game(PG.sprite.Sprite):
                     sys.exit()
 
             
-            
+            self.reStart(Game)
             self.player.update(self.Collisions(self.player))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
@@ -77,22 +91,3 @@ if __name__ == '__main__':
     game = Game()
     game.start()
 
-'''
-
-    def reStart(self):
-        
-        self.screen.blit(self.background, (0, 0))
-
-        self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
-        self.screen.blit(self.player.image, self.player.rect)
-
-        PG.display.flip()  # update all game screen
-        self.clock.tick(20)
-
-        if event.type == PG.KEYDOWN:
-                if event.key == PG.K_SPACE:
-                    if self.game_started == False:
-                        self.reStart()
-                        self.game_started = True
-
-'''

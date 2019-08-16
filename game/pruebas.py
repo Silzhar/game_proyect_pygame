@@ -62,21 +62,22 @@ class Game(PG.sprite.Sprite):
        
         for self.player in self.shock: # go throug !
             print("colision !!!!!!!")
-            direction = self.player.handle_event(event)  # repair 
-            if self.player == direction:        # .update
-                if PG.KEYDOWN:   
-                    if direction == 'left':
-                        self.clip(self.left_states)
-                        self.rect.x -= 0
-                    if direction == 'right':
-                        self.clip(self.right_states)
-                        self.rect.x += 0
-                    if direction == 'up':
-                        self.clip(self.up_states)
-                        self.rect.y -= 0
-                    if direction == 'down':
-                        self.clip(self.down_states)
-                        self.rect.y += 0
+         #   direction = self.player.handle_event(event)  # repair 
+         #   if self.player == direction:        # .update
+         #   if self.shock == True:
+            if PG.KEYDOWN:   
+                if self.player == 'left':
+                    self.clip(self.left_states)
+                    self.rect.x -= 0
+                if self.player  == 'right':
+                    self.clip(self.right_states)
+                    self.rect.x += 0
+                if self.player == 'up':
+                    self.clip(self.up_states)
+                    self.rect.y -= 0
+                if self.player  == 'down':
+                    self.clip(self.down_states)
+                    self.rect.y += 0
 
 
 
@@ -264,3 +265,23 @@ if __name__ == '__main__':
          self.Pause(pygame.K_SPACE)  
         
         '''
+
+'''
+
+    def reStart(self):
+        
+        self.screen.blit(self.background, (0, 0))
+
+        self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
+        self.screen.blit(self.player.image, self.player.rect)
+
+        PG.display.flip()  # update all game screen
+        self.clock.tick(20)
+
+        if event.type == PG.KEYDOWN:
+                if event.key == PG.K_SPACE:
+                    if self.game_started == False:
+                        self.reStart()
+                        self.game_started = True
+
+'''
