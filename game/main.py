@@ -24,7 +24,7 @@ class Menu():
 
 
 
-    def menuWindow(self, screen):
+    def menuWindow(self):  # , screen
         width_window = 1020
         height_window = 680   
 
@@ -45,6 +45,16 @@ class Game(PG.sprite.Sprite):
     def __init__(self): 
         width_window = 1040
         height_window = 704
+ 
+        self.menu = Menu # initial menu
+        self.options = [
+                    ('PLAY', self.start),
+                    ('OPTIONS'),  # , optionsMenu
+                    ('EXIT', self.menu.menuExit)
+                ]
+        
+        self.menu = Menu(self.options)
+                               
         
         PG.mixer.init()
         PG.mixer.music.load('gameLoops.mp3')   #  background music
@@ -120,7 +130,7 @@ class Game(PG.sprite.Sprite):
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
         
-          
+            self.menu.menuWindow()
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
  
@@ -135,10 +145,6 @@ if __name__ == '__main__':
     PG.init()
     game = Game()
     game.start()
-    menu = Menu(options)
-    options = [
-            ('PLAY', game),
-            ('OPTIONS'),  # , optionsMenu
-            ('EXIT', menu.menuExit)
-        ]
+    menu = Menu 
+    
 
