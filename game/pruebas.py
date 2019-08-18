@@ -43,14 +43,14 @@ class Game(PG.sprite.Sprite):
         self.walls = Walls((width_window, height_window))
         
         
-        '''
+        
         self.wallsBg = PG.image.load('walls.png')
         self.wallsSprite = PG.sprite.Sprite()
         self.wallsSprite.image = self.wallsBg
-        self.wallsSprite.rect = self.wallsBg.get_rect()   '''
+        self.wallsSprite.rect = self.wallsBg.get_rect()   
         
         
-        
+    '''    
     def Collisions(self, player, walls):
         self.collisionWallsSprite = PG.sprite.Group()
         self.collisionWallsSprite.add(self.walls.wallsSprite)
@@ -65,19 +65,20 @@ class Game(PG.sprite.Sprite):
          #   direction = self.player.handle_event(event)  # repair 
          #   if self.player == direction:        # .update
          #   if self.shock == True:
-            if PG.KEYDOWN:   
-                if self.player == 'left':
-                    self.clip(self.left_states)
-                    self.rect.x -= 0
-                if self.player  == 'right':
-                    self.clip(self.right_states)
-                    self.rect.x += 0
-                if self.player == 'up':
-                    self.clip(self.up_states)
-                    self.rect.y -= 0
-                if self.player  == 'down':
-                    self.clip(self.down_states)
-                    self.rect.y += 0
+            if PG.KEYDOWN: 
+                if self.player.update: 
+                    if self.player == 'left':
+                        self.clip(self.left_states)
+                        self.rect.x -= 0
+                    if self.player  == 'right':
+                        self.clip(self.right_states)
+                        self.rect.x += 0
+                    if self.player == 'up':
+                        self.clip(self.up_states)
+                        self.rect.y -= 0
+                    if self.player  == 'down':
+                        self.clip(self.down_states)
+                        self.rect.y += 0   '''
 
 
 
@@ -97,13 +98,13 @@ class Game(PG.sprite.Sprite):
                       
             
             
-            self.Collisions(self.player, self.walls)
-            self.player.update(self.Collisions(self.player, self.walls))   
+      #      self.Collisions(self.player, self.walls)
+      #      self.player.update(self.Collisions(self.player, self.walls))   
             self.player.handle_event(event)
             self.screen.blit(self.background, (0, 0))    
         
           
-          #  self.screen.blit(self.wallsSprite.image, self.walls.wallsSprite.rect)  # draw walls
+            self.screen.blit(self.wallsSprite.image, self.walls.wallsSprite.rect)  # draw walls
             self.screen.blit(self.player.image, self.player.rect)
  
         
