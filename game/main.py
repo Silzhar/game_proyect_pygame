@@ -60,8 +60,8 @@ class Game(PG.sprite.Sprite):
                     PG.quit()
                     sys.exit()
 
-            for self.player in self.shock :
-                print("colision")
+         #   for self.player in self.shock :
+        #        print("colision")
             
          #   self.reStart(Game)
          #   self.player.update(self.Collisions(self.player))   
@@ -83,6 +83,6 @@ if __name__ == '__main__':
     PG.init()
     game = Game()
     game.start()
-    menu = Menu 
+   
     
 
