@@ -1,28 +1,32 @@
-
 import pygame
 
 class Executus(pygame.sprite.Sprite):
     def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)
         self.sheet = pygame.image.load('spliteCat.png')
-        self.sheet.set_clip(pygame.Rect(0, 0, 30, 30))
+        self.sheet.set_clip(pygame.Rect(0, 0, 30, 30))  # visual box of sprite
         self.image = self.sheet.subsurface(self.sheet.get_clip())
         self.rect = self.image.get_rect()
         self.rect.topleft = position
         self.frame = 0
-      
-                                                    
+        
+        
+         
+        # tour the sprite in frames to create animation                                       
         self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
         self.up_states = { 0: ( 0, 30, 30, 30 ), 1: (32 , 30, 30, 30), 2: (64 , 30, 30, 30)}
         self.down_states = { 0: ( 0, 60, 30, 30 ), 1: (32 , 60, 30, 30), 2: (64 , 60, 30, 30)}
         self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
         
+             
     
     def get_frame(self, frame_set):
         self.frame += 1
         if self.frame > (len(frame_set) - 1):
             self.frame = 0
         return frame_set[self.frame]
+
 
     def clip(self, clipped_rect):
         if type(clipped_rect) is dict:
@@ -56,11 +60,14 @@ class Executus(pygame.sprite.Sprite):
             self.clip(self.down_states[0])
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
+        
+        
 
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             game_over = True
+            self.pause= False
 
         if event.type == pygame.KEYDOWN:
 
@@ -72,6 +79,8 @@ class Executus(pygame.sprite.Sprite):
                 self.update('up')
             if event.key == pygame.K_DOWN:
                 self.update('down')
+            
+                
 
         if event.type == pygame.KEYUP:
 
@@ -83,5 +92,6 @@ class Executus(pygame.sprite.Sprite):
                 self.update('stand_up')
             if event.key == pygame.K_DOWN:
                 self.update('stand_down')
+                
                 
                 
