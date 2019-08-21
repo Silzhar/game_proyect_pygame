@@ -1,5 +1,6 @@
 import pygame
 
+
 class Executus(pygame.sprite.Sprite):
     def __init__(self, position):
         pygame.sprite.Sprite.__init__(self)
@@ -9,7 +10,10 @@ class Executus(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = position
         self.frame = 0
-        
+
+        self.X = 100
+        self.Y = 140
+        self.positionPlayer = (self.X, self.Y)
         
          
         # tour the sprite in frames to create animation                                       
@@ -60,8 +64,6 @@ class Executus(pygame.sprite.Sprite):
             self.clip(self.down_states[0])
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
-        
-        
 
 
     def handle_event(self, event):
@@ -91,7 +93,7 @@ class Executus(pygame.sprite.Sprite):
             if event.key == pygame.K_UP:
                 self.update('stand_up')
             if event.key == pygame.K_DOWN:
-                self.update('stand_down')
+                self.update('stand_down')   
                 
                 
                 
