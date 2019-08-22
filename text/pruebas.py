@@ -3,6 +3,68 @@ from pygame.locals import *
 import pygame.event as GAME_EVENTS
 
 
+class Executus(pygame.sprite.Sprite):
+    def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)  
+        self.sheet = pygame.image.load('spliteCat.png')
+        self.sheet.set_clip(pygame.Rect(0, 0, 30, 30))  # visual box of sprite
+        self.image = self.sheet.subsurface(self.sheet.get_clip())
+        self.rect = self.image.get_rect()
+        self.rect.topleft = position
+        self.frame = 0
+
+        self.X = 100
+        self.Y = 140
+        self.positionPlayer = (self.X, self.Y)
+        
+        
+        # tour the sprite in frames to create animation                                       
+        self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
+        self.up_states = { 0: ( 0, 30, 30, 30 ), 1: (32 , 30, 30, 30), 2: (64 , 30, 30, 30)}
+        self.down_states = { 0: ( 0, 60, 30, 30 ), 1: (32 , 60, 30, 30), 2: (64 , 60, 30, 30)}
+        self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
+        #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
+
+    def get_frame(self, frame_set):
+        self.frame += 1
+        if self.frame > (len(frame_set) - 1):
+            self.frame = 0
+        return frame_set[self.frame]
+
+
+    def clip(self, clipped_rect):
+        if type(clipped_rect) is dict:
+            self.sheet.set_clip(pygame.Rect(self.get_frame(clipped_rect)))
+        else:
+            self.sheet.set_clip(pygame.Rect(clipped_rect))
+        return clipped_rect
+
+
+    def update(self, direction):       
+        if direction == 'left':
+            self.clip(self.left_states)
+            self.rect.x -= 4
+        if direction == 'right':
+            self.clip(self.right_states)
+            self.rect.x += 4
+        if direction == 'up':
+            self.clip(self.up_states)
+            self.rect.y -= 4
+        if direction == 'down':
+            self.clip(self.down_states)
+            self.rect.y += 4
+
+        if direction == 'stand_left':
+            self.clip(self.left_states[0])
+        if direction == 'stand_right':
+            self.clip(self.right_states[0])
+        if direction == 'stand_up':
+            self.clip(self.up_states[0])
+        if direction == 'stand_down':
+            self.clip(self.down_states[0])
+
+        self.image = self.sheet.subsurface(self.sheet.get_clip())
+
 
 class Game(pygame.sprite.Sprite):
     
@@ -33,53 +95,17 @@ class Game(pygame.sprite.Sprite):
         self.Ywalls = 352
         self.positionWalls = (self.Xwalls, self.Ywalls)
         
-        
-        
-        self.Executus = pygame.sprite.Sprite()
-        self.Executus = pygame.image.load('spliteCat.png')
-        self.Executus.set_clip(pygame.Rect(0, 0, 30, 30))  # visual box of sprite
-        self.imageCat = self.Executus.subsurface(self.Executus.get_clip())
-        self.Executus = self.imageCat.get_rect()
-    #   self.rect.topleft = position
-        self.frame = 0
-
-        self.X = 100
-        self.Y = 140
-        self.positionPlayer = (self.X, self.Y)
-        
-        
-        # tour the sprite in frames to create animation                                       
-        self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
-        self.up_states = { 0: ( 0, 30, 30, 30 ), 1: (32 , 30, 30, 30), 2: (64 , 30, 30, 30)}
-        self.down_states = { 0: ( 0, 60, 30, 30 ), 1: (32 , 60, 30, 30), 2: (64 , 60, 30, 30)}
-        self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
-        #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
-
-    def get_frame(self, frame_set):
-        self.frame += 1
-        if self.frame > (len(frame_set) - 1):
-            self.frame = 0
-        return frame_set[self.frame]
-
-
-    def clip(self, clipped_rect):
-        if type(clipped_rect) is dict:
-            self.sheet.set_clip(pygame.Rect(self.get_frame(clipped_rect)))
-        else:
-            self.sheet.set_clip(pygame.Rect(clipped_rect))
-        return clipped_rect
+        self.player = Executus((width_window/10, height_window/4))
 
 
         
         
-        
-                   
+                  
   
     def start(self):
-        self.game_over = False
-     #   self.player = self.Executus((width_window/10, height_window/4))
+        self.game_over = False 
       #  self.player.update
-       
+        direction = self.player
         
         self.collisionWallsSprite = pygame.sprite.Group()
         self.collisionWallsSprite.add(self.wallsSprite)
@@ -87,7 +113,7 @@ class Game(pygame.sprite.Sprite):
     #    self.collisionPlayer.add(self.player)
 
         self.spriteList = pygame.sprite.Group()
-        self.shock = pygame.sprite.spritecollide(self.Executus, self.collisionWallsSprite, False, collided = None) # collided = None
+        self.shock = pygame.sprite.spritecollide(self.player, self.collisionWallsSprite, False, collided = None) # collided = None
         
 
         while self.game_over == False:
@@ -96,37 +122,6 @@ class Game(pygame.sprite.Sprite):
                     self.game_over = True
                     pygame.quit()
                     sys.exit()
-
-            def update(self, direction):       
-                if direction == 'left':
-                    self.clip(self.left_states)
-                    self.rect.x -= 4
-                if direction == 'right':
-                    self.clip(self.right_states)
-                    self.rect.x += 4
-                if direction == 'up':
-                    self.clip(self.up_states)
-                    self.rect.y -= 4
-                if direction == 'down':
-                    self.clip(self.down_states)
-                    self.rect.y += 4
-
-                if direction == 'stand_left':
-                    self.clip(self.left_states[0])
-                if direction == 'stand_right':
-                    self.clip(self.right_states[0])
-                if direction == 'stand_up':
-                    self.clip(self.up_states[0])
-                if direction == 'stand_down':
-                    self.clip(self.down_states[0])
-
-            self.image = self.sheet.subsurface(self.sheet.get_clip())
-        
-        
-            def handle_event(self, event):
-                if event.type == pygame.QUIT:
-                    game_over = True
-                    self.pause= False
 
                 if event.type == pygame.KEYDOWN:
 
@@ -139,8 +134,6 @@ class Game(pygame.sprite.Sprite):
                     if event.key == pygame.K_DOWN:
                         self.update('down')
                     
-                        
-
                 if event.type == pygame.KEYUP:
 
                     if event.key == pygame.K_LEFT:
@@ -151,20 +144,22 @@ class Game(pygame.sprite.Sprite):
                         self.update('stand_up')
                     if event.key == pygame.K_DOWN:
                         self.update('stand_down')
-                        
+
+
+            
 
     
 
             if self.shock :
                 print("colision")
 
-            self.Executus.handle_event(event)
+        #    self.Executus.handle_event(event)
             
             self.screen.blit(self.background, (0, 0))    
         
             
             self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
-            self.screen.blit(self.Executus, self.Executus.rect)
+            self.screen.blit(self.player.image, self.player.rect)
  
         
                 
