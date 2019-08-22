@@ -18,7 +18,7 @@ class Executus(pygame.sprite.Sprite):
         self.frame = 0
 
         
-       
+        self.walls = Walls(())
          
         # tour the sprite in frames to create animation                                       
         self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
@@ -86,8 +86,8 @@ class Executus(pygame.sprite.Sprite):
 
     
     def collision(self,player, shocks):
-        for shockPlayer in self.collisionWallsSprite:
-            if Executus.rect.colliderect(shockPlayer):
+        for shockPlayer in self.walls.collisionWallsSprite:
+            if self.rect.colliderect(shockPlayer):
                 return True
         return False
 
@@ -122,6 +122,21 @@ class Broom(pygame.sprite.Sprite):
         return clipped_rect
 
 
+class Walls(pygame.sprite.Sprite):
+    def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)
+        self.wallsBg = pygame.image.load('walls.png')
+        self.wallsSprite = pygame.sprite.Sprite()
+        self.wallsSprite.image = self.wallsBg
+        self.wallsSprite.rect = self.wallsBg.get_rect()
+
+        self.Xwalls = 520
+        self.Ywalls = 352
+        self.positionWalls = (self.Xwalls, self.Ywalls)
+        self.collisionWallsSprite = pygame.sprite.Group()
+        self.collisionWallsSprite.add(self.wallsSprite)
+
+
 
 class Game(pygame.sprite.Sprite):
     
@@ -148,19 +163,8 @@ class Game(pygame.sprite.Sprite):
 
         self.enemy = Broom((width_window/3, height_window/4))
         self.enemy.update
-        
-        self.wallsBg = pygame.image.load('walls.png')
-        self.wallsSprite = pygame.sprite.Sprite()
-        self.wallsSprite.image = self.wallsBg
-        self.wallsSprite.rect = self.wallsBg.get_rect()
-        self.Xwalls = 520
-        self.Ywalls = 352
-        self.positionWalls = (self.Xwalls, self.Ywalls)
-        
-        
-
-        
-        
+           
+        self.walls = Walls((width_window/3, height_window/4))
                    
   
     def start(self):
@@ -179,8 +183,7 @@ class Game(pygame.sprite.Sprite):
      #   self.player.rect.left = 140
         
         
-        self.collisionWallsSprite = pygame.sprite.Group()
-        self.collisionWallsSprite.add(self.wallsSprite)
+        
     #    self.collisionPlayer = pygame.sprite.Group()
     #    self.collisionPlayer.add(self.player)
 
@@ -220,7 +223,7 @@ class Game(pygame.sprite.Sprite):
                         self.player.update('stand_down')
 
                     
-            if self.player.collision(self.player, self.collisionWallsSprite):
+            if self.player.collision(self.player, self.walls.collisionWallsSprite):
                 self.shock = True
                 print("colision !")
             if self.shock == False:
@@ -234,7 +237,7 @@ class Game(pygame.sprite.Sprite):
             self.screen.blit(self.background, (0, 0))    
         
             
-            self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
+            self.screen.blit(self.walls.wallsSprite.image, self.walls.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
             self.screen.blit(self.enemy.imageBroom, self.enemy.rect)
  
