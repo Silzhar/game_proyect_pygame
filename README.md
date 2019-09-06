@@ -14,5 +14,7 @@ Lynux / Ubuntu
 
 $ python3 -m venv venv
 
-$ source venv/bin/activate
+
+ # entorno virtual en carpeta game
+game_proyect_pygame/game$ source venv/bin/activate
 
