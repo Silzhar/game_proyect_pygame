@@ -1,10 +1,25 @@
 import pygame , sys
-import player
+import player , interactions
 from pygame.locals import *
 import pygame.event as GAME_EVENTS
 
 
+class Breaks(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.attackImage = pygame.image.load('I+S/attack.png')
+        self.image = pygame.transform.scale(self.attackImage,(10,10))
+        self.rect = self.image.get_rect()
+        self.radius = int(self.rect.width/2)
+        self.rect.bottom = y
+        self.rect.centerx = x+24
+        self.attackImage = -2
 
+    def update(self):
+        self.rect.y + self.attackImage
+        if self.rect.y < 0:
+            self.kill()
+            
 
 class Game(pygame.sprite.Sprite):
     
@@ -32,8 +47,9 @@ class Game(pygame.sprite.Sprite):
         self.font_name = pygame.font.match_font('Arial')
         self.clock = pygame.time.Clock() 
 
+        # PLAYER
         self.player = player.Executus((self.width_window/10, self.height_window/4)) # add Executus to Game
-        self.playerImageLives =  self.player.sheet         #  pygame.transform.scale(player,(34,28))
+        self.playerImageLives = pygame.image.load('I+S/gus 2.png')         #  pygame.transform.scale(player,(34,28))
         self.player.update  
 
         
@@ -45,6 +61,14 @@ class Game(pygame.sprite.Sprite):
         self.Xwalls = 520
         self.Ywalls = 352
         self.positionWalls = (self.Xwalls, self.Ywalls)
+
+        # GROUPS SPRITES
+        self.broken = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group() 
+        self.allSprites = pygame.sprite.Group()
+        self.allSprites.add(self.player)
+
+
 
 
     def text(self,surface,text,size,x,y):  # function to draw text
@@ -81,11 +105,9 @@ class Game(pygame.sprite.Sprite):
         self.game_over = False
         
         
-        self.collisionWallsSprite = pygame.sprite.Group()
-        self.collisionWallsSprite.add(self.wallsSprite)
-
-
-        self.spriteList = pygame.sprite.Group()
+    #    self.collisionWallsSprite = pygame.sprite.Group()
+    #    self.collisionWallsSprite.add(self.wallsSprite)
+    #    self.spriteList = pygame.sprite.Group()
 
         
 
@@ -105,7 +127,7 @@ class Game(pygame.sprite.Sprite):
             self.text(self.screen,str(self.score),18,self.width_window/2,10)
             self.lifeBar(self.screen,5,5,self.player.shield)
             self.lives(self.screen,self.width_window-100,5,self.player.player_lives,self.playerImageLives)
-            self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
+        #    self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
        
  
