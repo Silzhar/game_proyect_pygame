@@ -36,14 +36,17 @@ class Collision(pygame.sprite.Sprite):
 class Brooms(pygame.sprite.Sprite):
     def __init__(self): 
         pygame.sprite.Sprite.__init__(self)
+        self.width_window = 1040
+        self.height_window = 704
+
         broom = pygame.image.load('I+S/broom.png')
         self.imageOrigin = pygame.transform.scale(broom,(13,32))
         self.image = self.imageOrigin.copy()
         self.rect = self.image.get_rect()
         self.radius = int(self.rect.width*0.9/2)
 
-        self.rect.x = random.randrange(0,main.Game.width_window-8)
-        self.rect.y = random.randrange(100,main.Game.height_window-400)
+        self.rect.x = random.randrange(0,self.width_window-8)
+        self.rect.y = random.randrange(100,self.height_window-400)
         self.speedBrooms = random.randrange(1,4)
         self.rot = 0
 
@@ -64,8 +67,8 @@ class Brooms(pygame.sprite.Sprite):
     def update(self): # this will be used to move the object
         self.rotation()
         self.rect.y += self.speedBrooms
-        if self.rect.y > main.Game.height_window:
-            self.rect.x = random.randrange(0,main.Game.width_window-500)
+        if self.rect.y > self.height_window:
+            self.rect.x = random.randrange(0,self.width_window-500)
             self.rect.y = random.randrange(-100,-40)
             self.speedBrooms = random.randrange(1,4)
 
@@ -76,8 +79,8 @@ class Bottle(pygame.sprite.Sprite):
         bottleOne = pygame.image.load('I+S/bottle.png')
         self.image = pygame.transform.scale(bottleOne,(12,30))   
         self.rect = self.image.get_rect()
-        positions = [(720,602),(868,600)]
-        self.rect = positions
+        self.positions = [(720,602),(868,600)]
+        self.rect = self.positions
 
     '''
     def update(self):
