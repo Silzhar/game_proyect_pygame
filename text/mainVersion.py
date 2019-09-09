@@ -211,9 +211,12 @@ class Game(pygame.sprite.Sprite):
         collisionFrame ={}
         collisionFrame['playerHit']=[]
         collisionFrame['player']=[]
-   
-                
 
+    # we will use this class to add movement to the player
+        self.speed = 4
+        self.stop = 0
+        self.xMove = 0
+        self.yMove = 0 
 
         while self.game_play == True:
             for event in pygame.event.get():
@@ -223,6 +226,30 @@ class Game(pygame.sprite.Sprite):
                     sys.exit()
 
 
+                if event.type == pygame.KEYDOWN:                     
+                    if event.key == pygame.K_LEFT:
+                        self.player.rect.x -= 4
+                    if event.key == pygame.K_RIGHT:
+                        self.player.rect.x += 4
+                    if event.key == pygame.K_UP: 
+                        self.player.rect.y -= 4 
+                    if event.key == pygame.K_DOWN: 
+                        self.player.rect.y += 4
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT:
+                        self.xMove -= self.stop
+                    if event.key == pygame.K_RIGHT:
+                        self.xMove += self.stop
+                    if event.key == pygame.K_UP:
+                        self.yMove -= self.stop
+                    if event.key == pygame.K_DOWN:
+                        self.yMove += self.stop
+
+                if self.player.hidden and pygame.time.get_ticks() -self.hide_timer > 1000:
+                        self.hidden = False
+                        self.rect.center = (self.width_window/2,self.height_window - 48)
+                        
             
             self.allSprites.update()
             # check whether broken hit
