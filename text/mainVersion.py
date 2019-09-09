@@ -7,12 +7,10 @@ import pygame.event as GAME_EVENTS
 class Collision(pygame.sprite.Sprite):
     def __init__(self,center,size):
         pygame.sprite.Sprite.__init__(self)
-        self.collisionFrame ={}
-        self.collisionFrame['playerHit']=[]
-        self.collisionFrame['player']=[]
+        self.game = Game()
 
         self.size = size
-        self.image = self.collisionFrame[size][0]
+        self.image = self.game.collisionFrame[size][0]
         self.rect = self.image.get_rect()
         self.rect.center = center
         self.frame = 0
@@ -24,11 +22,11 @@ class Collision(pygame.sprite.Sprite):
         if now - self.last_update > self.frame_rate:
             self.last_update = now
             self.frame +=1
-            if self.frame == len(self.collisionFrame[self.size]):
+            if self.frame == len(self.game.collisionFrame[self.size]):
                 self.kill()
             else :
                 center = self.rect.center
-                self.image = self.collisionFrame[self.size][self.frame]
+                self.image = self.game.collisionFrame[self.size][self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
@@ -122,7 +120,6 @@ class Game(pygame.sprite.Sprite):
         
         self.executusMeow = pygame.mixer.Sound('Cat_Meow.wav')    #  cat sound
     
-
         # GAME SCREEN  
         self.screen = pygame.display.set_mode((self.width_window, self.height_window))   
         self.background = pygame.image.load('indoor.png')
@@ -131,7 +128,7 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         # PLAYER
-        self.player = player.Executus((self.width_window/10, self.height_window/4)) # add Executus to Game
+        self.player = player.Executus() # ((self.width_window/10, self.height_window/4)) # add Executus to Game
         self.playerImageLives = pygame.image.load('I+S/gus 2.png')         #  pygame.transform.scale(player,(34,28))
         self.player.update  
 
@@ -155,6 +152,29 @@ class Game(pygame.sprite.Sprite):
 
         self.bottles = pygame.sprite.Group()
         self.bottles.add(self.bottle1)
+
+        # collisions loop : player & objets 
+        self.collisionFrame ={}
+        self.collisionFrame['playerHit']=[]
+        self.collisionFrame['player']=[]
+
+        for i in range(0,8):
+            breackBottle = pygame.image.load('I+S/breackBottle.png')
+            img = (breackBottle) 
+
+            tombstoneOrigin = pygame.image.load('I+S/Tombstone.png')
+            tombstone = pygame.transform.scale(tombstoneOrigin,(70,60))
+            self.collisionFrame['player'].append(tombstone)
+
+            img_playerHit = pygame.transform.scale(breackBottle,(32,32))
+            self.collisionFrame['playerHit'].append(img_playerHit)
+
+
+        # as we need multiple eneimies we will use a for loop
+        for i in range(8):
+            brooms = Brooms()
+            self.enemies.add(brooms)
+            self.allSprites.add(brooms)    
 
 
     def text(self,surface,text,size,x,y):  # function to draw text
@@ -184,12 +204,17 @@ class Game(pygame.sprite.Sprite):
         pygame.draw.rect(surf,self.green,insideLifeRect)  # life points (green)
         pygame.draw.rect(surf,self.white,exteriorLifeRect,2) # outer rectangle (whilte) ,life frame
         
-               
-                   
-  
+
+
     def start(self):
         self.game_play = True # True ?? comprobar
-    
+        collisionFrame ={}
+        collisionFrame['playerHit']=[]
+        collisionFrame['player']=[]
+   
+                
+
+
         while self.game_play == True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -197,13 +222,9 @@ class Game(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
 
-            # as we need multiple eneimies we will use a for loop
-            for i in range(8):
-                brooms = Brooms()
-                self.enemies.add(brooms)
-                self.allSprites.add(brooms)
 
-        #    self.allSprites.update()
+            
+            self.allSprites.update()
             # check whether broken hit
             hits = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
             if hits:
@@ -243,13 +264,14 @@ class Game(pygame.sprite.Sprite):
 
 
     
-            self.player.handle_event(event)
+         #   self.player.handle_event(event)
             self.screen.blit(self.background,(0,0))
             self.text(self.screen,str(self.score),18,self.width_window/2,10)
             self.lifeBar(self.screen,5,5,self.player.shield)
             self.lives(self.screen,self.width_window-100,5,self.player.player_lives,self.playerImageLives)
         #    self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
+            self.allSprites.draw(self.screen)
        
  
         
