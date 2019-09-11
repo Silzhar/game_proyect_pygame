@@ -1,7 +1,12 @@
-import pygame , sys , random
-import player 
+import random
+import sys
+
+import pygame
+#import pygame.event as GAME_EVENTS
 from pygame.locals import *
-import pygame.event as GAME_EVENTS
+
+import player
+
 
 
 class Collision(pygame.sprite.Sprite):
@@ -128,7 +133,7 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         # PLAYER
-        self.player = player.Executus() # ((self.width_window/10, self.height_window/4)) # add Executus to Game
+        self.player = player.Executus((self.width_window/10, self.height_window/4)) # ((self.width_window/10, self.height_window/4)) # add Executus to Game
         self.playerImageLives = pygame.image.load('I+S/gus 2.png')         #  pygame.transform.scale(player,(34,28))
         self.player.update  
 
@@ -152,6 +157,7 @@ class Game(pygame.sprite.Sprite):
 
         self.bottles = pygame.sprite.Group()
         self.bottles.add(self.bottle1)
+        self.brooms = Brooms()
 
         # collisions loop : player & objets 
         self.collisionFrame ={}
@@ -218,14 +224,12 @@ class Game(pygame.sprite.Sprite):
         self.xMove = 0
         self.yMove = 0 
 
+      
+
         while self.game_play == True:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.game_play = False
-                    pygame.quit()
-                    sys.exit()
-
-
+                
+                '''
                 if event.type == pygame.KEYDOWN:                     
                     if event.key == pygame.K_LEFT:
                         self.player.rect.x -= 4
@@ -248,10 +252,20 @@ class Game(pygame.sprite.Sprite):
 
                 if self.player.hidden and pygame.time.get_ticks() -self.hide_timer > 1000:
                         self.hidden = False
-                        self.rect.center = (self.width_window/2,self.height_window - 48)
-                        
+                        self.rect.center = (self.width_window/2,self.height_window - 48)   '''
+
+                
+
+                if event.type == pygame.QUIT:
+                    self.game_play = False
+                    pygame.quit()
+                    sys.exit()
+
+
+
+                    
             
-            self.allSprites.update()
+         #   self.allSprites.update()
             # check whether broken hit
             hits = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
             if hits:
@@ -289,9 +303,9 @@ class Game(pygame.sprite.Sprite):
             if self.player.player_lives == 0 and not death_explosion.alive():
                 self.game_play = False
 
-
-    
-         #   self.player.handle_event(event)
+            
+         #   self.player.update()
+            self.player.handle_event(event)
             self.screen.blit(self.background,(0,0))
             self.text(self.screen,str(self.score),18,self.width_window/2,10)
             self.lifeBar(self.screen,5,5,self.player.shield)
@@ -299,18 +313,20 @@ class Game(pygame.sprite.Sprite):
         #    self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
             self.allSprites.draw(self.screen)
+         #   self.screen.blit(.self.allSprites)
+
+            self.allSpritesOrder = pygame.sprite.OrderedUpdates(self.allSprites, self.enemies ,self.bottle1)
+            
        
- 
+            
         
-                
+            
             pygame.display.flip()
             self.clock.tick(20)
                     
-        
+           
 
 if __name__ == '__main__':
     pygame.init()
     game = Game()
     game.start()
-   
-            
