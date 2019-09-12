@@ -1,6 +1,7 @@
 import pygame , sys
 import mainVersion
 from pygame.locals import *
+import interactions
 
 
 class Executus(pygame.sprite.Sprite):
@@ -17,23 +18,17 @@ class Executus(pygame.sprite.Sprite):
         self.hide_timer = pygame.time.get_ticks()
 
         self.main = mainVersion
+        self.interaction = interactions
         self.width_window = 1040
         self.height_window = 704
 
-        self.rect.center = (self.width_window/2,self.height_window-48)  
-      
+        self.rect.center = (self.width_window/2,self.height_window-48)     
 
-        
-  
         self.sheet = pygame.image.load('spliteCat.png')
         self.sheet.set_clip(pygame.Rect(0, 0, 30, 30))  # visual box of sprite
         self.image = self.sheet.subsurface(self.sheet.get_clip())
         self.rect = self.image.get_rect()
      #   self.rect.topleft = position
-
-        self.main = mainVersion
-        self.width_window = 1040
-        self.height_window = 704
 
         self.frame = 0
         self.radius = 21
@@ -44,14 +39,51 @@ class Executus(pygame.sprite.Sprite):
         self.hidden = False
         self.hide_timer = pygame.time.get_ticks()
 
-        
-         
+             
         # tour the sprite in frames to create animation                                       
         self.right_states = { 0: ( 0, 0, 30, 28 ), 1: (32 , 0, 30, 28), 2: (64 , 0, 30, 28)}
         self.up_states = { 0: ( 0, 30, 30, 30 ), 1: (32 , 30, 30, 30), 2: (64 , 30, 30, 30)}
         self.down_states = { 0: ( 0, 60, 30, 30 ), 1: (32 , 60, 30, 30), 2: (64 , 60, 30, 30)}
         self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt   
+
+    def collisionHit(self, spriteGroup):
+            # check whether broken hit
+            hits = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
+            if hits:
+                self.hitSound.play()
+            for hit in hits:
+                self.main.game.score += 1
+                expl = self(hit.rect.center,'playerHit')
+                self.allSprites.add(expl)
+                self.allSprites.add(self.bottles)
+
+             # here we see whether it will hit or not
+            hits = pygame.sprite.spritecollide(self,self.enemies,True,pygame.sprite.collide_circle)
+            for hit in hits:
+                self.broomHit.play() # change
+                expl1 = self(hit.rect.center,'playerHit')
+                self.allSprites.add(expl1)
+                brooms = self.interaction.Brooms()
+                self.allSprites.add(brooms)
+                self.enemies.add(brooms)
+                self.player.shield -= 50
+                if self.player.shield <= 0:
+                    death_explosion = self(self.rect.center,'player')
+                    self.allSprites.add(death_explosion)
+                    self.player.hide()
+                    self.player.player_lives -= 1
+                    self.player.shield = 100
+
+                if hits == False:
+                    pygame.sprite.Group.clear() 
+                    hits = self.broken.pygame.sprite.empty()
+        
+
+            if self.player.player_lives == 0 and not death_explosion.alive():
+                self.main.Game.game_play = False
+
+            
 
  
     def knock(self):   # use this to knock bottles
