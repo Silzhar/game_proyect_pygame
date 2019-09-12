@@ -8,7 +8,7 @@ from pygame.locals import *
 import player
 
 
-
+'''
 class Collision(pygame.sprite.Sprite):
     def __init__(self,center,size):
         pygame.sprite.Sprite.__init__(self)
@@ -33,7 +33,7 @@ class Collision(pygame.sprite.Sprite):
                 center = self.rect.center
                 self.image = self.game.collisionFrame[self.size][self.frame]
                 self.rect = self.image.get_rect()
-                self.rect.center = center
+                self.rect.center = center   '''
 
 
 # we create the class for moving enemies 
@@ -84,6 +84,15 @@ class Bottle(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(bottleOne,(12,30))   
         self.rect = self.image.get_rect()
         self.rect = position
+
+        self.bottlesList = []
+        for bottleSimple in range(10):
+            self.bottlesList.append(bottleSimple)
+
+
+    def update(self):
+        self.bottlesList
+
 
 
 class Breaks(pygame.sprite.Sprite):
@@ -150,7 +159,7 @@ class Game(pygame.sprite.Sprite):
         self.positionWalls = (self.Xwalls, self.Ywalls)
 
         # GROUPS SPRITES
-        self.broken = pygame.sprite.Group()
+     #   self.broken = pygame.sprite.Group() # VACIO !!
         self.enemies = pygame.sprite.Group() 
         self.allSprites = pygame.sprite.Group()
         self.allSprites.add(self.player)
@@ -228,53 +237,24 @@ class Game(pygame.sprite.Sprite):
 
         while self.game_play == True:
             for event in pygame.event.get():
-                
-                '''
-                if event.type == pygame.KEYDOWN:                     
-                    if event.key == pygame.K_LEFT:
-                        self.player.rect.x -= 4
-                    if event.key == pygame.K_RIGHT:
-                        self.player.rect.x += 4
-                    if event.key == pygame.K_UP: 
-                        self.player.rect.y -= 4 
-                    if event.key == pygame.K_DOWN: 
-                        self.player.rect.y += 4
-
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT:
-                        self.xMove -= self.stop
-                    if event.key == pygame.K_RIGHT:
-                        self.xMove += self.stop
-                    if event.key == pygame.K_UP:
-                        self.yMove -= self.stop
-                    if event.key == pygame.K_DOWN:
-                        self.yMove += self.stop
-
-                if self.player.hidden and pygame.time.get_ticks() -self.hide_timer > 1000:
-                        self.hidden = False
-                        self.rect.center = (self.width_window/2,self.height_window - 48)   '''
-
-                
-
+                          
                 if event.type == pygame.QUIT:
                     self.game_play = False
                     pygame.quit()
                     sys.exit()
-
-
-
-                    
+     
             
-         #   self.allSprites.update()
+        
             # check whether broken hit
+            '''
             hits = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
             if hits:
                 self.hitSound.play()
             for hit in hits:
-                score += 1
+                self.score += 1
                 expl = self.Collision(hit.rect.center,'playerHit')
                 self.allSprites.add(expl)
-                self.allSprites.add(self.bottles)
+                self.allSprites.add(self.bottles)   
             
                 
 
@@ -302,9 +282,10 @@ class Game(pygame.sprite.Sprite):
 
             if self.player.player_lives == 0 and not death_explosion.alive():
                 self.game_play = False
+                '''
 
-            
-         #   self.player.update()
+
+         #   self.allSprites.update()
             self.player.handle_event(event)
             self.screen.blit(self.background,(0,0))
             self.text(self.screen,str(self.score),18,self.width_window/2,10)
@@ -313,9 +294,9 @@ class Game(pygame.sprite.Sprite):
         #    self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
             self.allSprites.draw(self.screen)
-         #   self.screen.blit(.self.allSprites)
-
-            self.allSpritesOrder = pygame.sprite.OrderedUpdates(self.allSprites, self.enemies ,self.bottle1)
+            self.enemies.update()
+            self.bottles.update()
+         #   self.allSpritesOrder = pygame.sprite.OrderedUpdates(self.allSprites, self.enemies ,self.bottle1)
             
        
             
