@@ -8,7 +8,7 @@ from pygame.locals import *
 import player
 
 
-'''
+
 class Collision(pygame.sprite.Sprite):
     def __init__(self,center,size):
         pygame.sprite.Sprite.__init__(self)
@@ -33,7 +33,7 @@ class Collision(pygame.sprite.Sprite):
                 center = self.rect.center
                 self.image = self.game.collisionFrame[self.size][self.frame]
                 self.rect = self.image.get_rect()
-                self.rect.center = center   '''
+                self.rect.center = center   
 
 
 # we create the class for moving enemies 
@@ -159,7 +159,7 @@ class Game(pygame.sprite.Sprite):
         self.positionWalls = (self.Xwalls, self.Ywalls)
 
         # GROUPS SPRITES
-     #   self.broken = pygame.sprite.Group() # VACIO !!
+        self.broken = pygame.sprite.Group() # VACIO !!
         self.enemies = pygame.sprite.Group() 
         self.allSprites = pygame.sprite.Group()
         self.allSprites.add(self.player)
@@ -246,43 +246,43 @@ class Game(pygame.sprite.Sprite):
             
         
             # check whether broken hit
-            '''
-            hits = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
-            if hits:
+            
+            self.hitsBottles = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
+            if self.hitsBottles:
                 self.hitSound.play()
-            for hit in hits:
+            for hit in self.hitsBottles:
                 self.score += 1
-                expl = self.Collision(hit.rect.center,'playerHit')
+                expl = Collision(hit.rect.center,'playerHit')
                 self.allSprites.add(expl)
                 self.allSprites.add(self.bottles)   
             
                 
 
             # here we see whether it will hit or not
-            hits = pygame.sprite.spritecollide(self.player,self.enemies,True,pygame.sprite.collide_circle)
-            for hit in hits:
+            self.hitsBrooms = pygame.sprite.spritecollide(self.player,self.enemies,True,pygame.sprite.collide_circle)
+            for hit in self.hitsBrooms:
                 self.broomHit.play() # change
-                expl1 = self.Collision(hit.rect.center,'playerHit')
+                expl1 = Collision(hit.rect.center,'playerHit')
                 self.allSprites.add(expl1)
                 brooms = Brooms()
                 self.allSprites.add(brooms)
                 self.enemies.add(brooms)
                 self.player.shield -= 50
                 if self.player.shield <= 0:
-                    death_explosion = self.Collision(self.player.rect.center,'player')
+                    death_explosion = Collision(self.player.rect.center,'player')
                     self.allSprites.add(death_explosion)
                     self.player.hide()
                     self.player.player_lives -= 1
                     self.player.shield = 100
 
-                if hits == False:
+                if self.hitsBrooms == False:
                     pygame.sprite.Group.clear() 
-                    hits = self.broken.pygame.sprite.empty()
+                    self.hitsBrooms = self.broken.pygame.sprite.empty()
         
 
             if self.player.player_lives == 0 and not death_explosion.alive():
                 self.game_play = False
-                '''
+                
 
 
          #   self.allSprites.update()
