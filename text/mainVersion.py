@@ -85,15 +85,6 @@ class Bottle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect = position
 
-        self.bottlesList = []
-        for bottleSimple in range(10):
-            self.bottlesList.append(bottleSimple)
-
-
-    def update(self):
-        self.bottlesList
-
-
 
 class Breaks(pygame.sprite.Sprite):
     def __init__(self,x,y):
@@ -142,13 +133,14 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         # PLAYER
-        self.player = player.Executus((self.width_window/10, self.height_window/4)) #  add Executus to Game
-        self.playerImageLives = pygame.image.load('I+S/gus 2.png')    
+        self.player = player.Executus((self.width_window/10, self.height_window/4))   #  add Executus to Game
+        self.playerImageLives = pygame.image.load('I+S/gus 2.png')     # lives (3), upper right of the screen
         self.player.update  
 
-        # BOTTLES
+        # BOTTLES creation and position
         self.positions = [(720,602),(868,600)]
         self.bottle1 = Bottle(self.positions[0])
+        self.bottle2 = Bottle(self.positions[1])
 
         self.wallsBg = pygame.image.load('walls.png')
         self.wallsSprite = pygame.sprite.Sprite()
@@ -167,6 +159,7 @@ class Game(pygame.sprite.Sprite):
 
         self.bottles = pygame.sprite.Group()
         self.bottles.add(self.bottle1)
+        self.bottles.add(self.bottle2)
         self.allSprites.add(self.bottles)
         
         # ENEMIES 
