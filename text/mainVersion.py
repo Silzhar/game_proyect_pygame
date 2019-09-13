@@ -142,8 +142,8 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock() 
 
         # PLAYER
-        self.player = player.Executus((self.width_window/10, self.height_window/4)) # ((self.width_window/10, self.height_window/4)) # add Executus to Game
-        self.playerImageLives = pygame.image.load('I+S/gus 2.png')         #  pygame.transform.scale(player,(34,28))
+        self.player = player.Executus((self.width_window/10, self.height_window/4)) #  add Executus to Game
+        self.playerImageLives = pygame.image.load('I+S/gus 2.png')    
         self.player.update  
 
         # BOTTLES
@@ -161,11 +161,15 @@ class Game(pygame.sprite.Sprite):
         # GROUPS SPRITES
         self.broken = pygame.sprite.Group() # VACIO !!
         self.enemies = pygame.sprite.Group() 
+
         self.allSprites = pygame.sprite.Group()
         self.allSprites.add(self.player)
 
         self.bottles = pygame.sprite.Group()
         self.bottles.add(self.bottle1)
+        self.allSprites.add(self.bottles)
+        
+        # ENEMIES 
         self.brooms = Brooms()
 
         # collisions loop : player & objets 
