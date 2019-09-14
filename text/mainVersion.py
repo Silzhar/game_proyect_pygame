@@ -1,11 +1,7 @@
-import random
-import sys
-
+import random , sys
 import pygame
-#import pygame.event as GAME_EVENTS
 from pygame.locals import *
-
-import player
+import player , interactions
 
 
 
@@ -150,20 +146,23 @@ class Game(pygame.sprite.Sprite):
         self.Ywalls = 352
         self.positionWalls = (self.Xwalls, self.Ywalls)
 
-        # GROUPS SPRITES
-        self.broken = pygame.sprite.Group() # VACIO !!
-        self.enemies = pygame.sprite.Group() 
+        # GROUPS SPRITES import from interactions
+        self.sprites = interactions
+    #    self.broken = pygame.sprite.Group()  # add sprites in (def knock) to breack bottles
+    #    self.enemies = pygame.sprite.Group() # ad brooms to the sprites group
+        self.sprites.broken.add(self.player)  # need? check
 
-        self.allSprites = pygame.sprite.Group()
-        self.allSprites.add(self.player)
+     #   self.allSprites = pygame.sprite.Group()
+        self.sprites.allSprites.add(self.player)
 
-        self.bottles = pygame.sprite.Group()
-        self.bottles.add(self.bottle1)
-        self.bottles.add(self.bottle2)
-        self.allSprites.add(self.bottles)
+     #   self.bottles = pygame.sprite.Group()
+        self.sprites.bottles.add(self.bottle1)
+        self.sprites.bottles.add(self.bottle2)
+        self.sprites.allSprites.add(self.sprites.bottles)
         
-        # ENEMIES 
+        # class , definitions
         self.brooms = Brooms()
+    #    self.breacks = Breaks()
 
         # collisions loop : player & objets 
         self.collisionFrame ={}
@@ -185,8 +184,8 @@ class Game(pygame.sprite.Sprite):
         # as we need multiple eneimies we will use a for loop
         for i in range(8):
             brooms = Brooms()
-            self.enemies.add(brooms)
-            self.allSprites.add(brooms)    
+            self.sprites.enemies.add(brooms)
+            self.sprites.allSprites.add(brooms)    
 
 
     def text(self,surface,text,size,x,y):  # function to draw text
@@ -215,11 +214,13 @@ class Game(pygame.sprite.Sprite):
         insideLifeRect = pygame.Rect(x,y,fill,bar_height)
         pygame.draw.rect(surf,self.green,insideLifeRect)  # life points (green)
         pygame.draw.rect(surf,self.white,exteriorLifeRect,2) # outer rectangle (whilte) ,life frame
+
+ 
         
 
 
     def start(self):
-        self.game_play = True # True ?? comprobar
+        self.game_play = True 
         collisionFrame ={}
         collisionFrame['playerHit']=[]
         collisionFrame['player']=[]
@@ -239,42 +240,46 @@ class Game(pygame.sprite.Sprite):
                     self.game_play = False
                     pygame.quit()
                     sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.player.knock()
+                        
      
             
         
             # check whether broken hit
             
-            self.hitsBottles = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
+            self.hitsBottles = pygame.sprite.groupcollide(self.sprites.broken,self.sprites.bottles,True,True)  
             if self.hitsBottles:
                 self.hitSound.play()
             for hit in self.hitsBottles:
                 self.score += 1
                 expl = Collision(hit.rect.center,'playerHit')
-                self.allSprites.add(expl)
-                self.allSprites.add(self.bottles)   
+                self.sprites.allSprites.add(expl)
+                self.sprites.allSprites.add(self.sprites.bottles)   
             
                 
 
             # here we see whether it will hit or not
-            self.hitsBrooms = pygame.sprite.spritecollide(self.player,self.enemies,True,pygame.sprite.collide_circle)
+            self.hitsBrooms = pygame.sprite.spritecollide(self.player,self.sprites.enemies,True,pygame.sprite.collide_circle)
             for hit in self.hitsBrooms:
                 self.broomHit.play() # change
                 expl1 = Collision(hit.rect.center,'playerHit')
-                self.allSprites.add(expl1)
+                self.sprites.allSprites.add(expl1)
                 brooms = Brooms()
-                self.allSprites.add(brooms)
-                self.enemies.add(brooms)
+                self.sprites.allSprites.add(brooms)
+                self.sprites.enemies.add(brooms)
                 self.player.shield -= 50
                 if self.player.shield <= 0:
                     death_explosion = Collision(self.player.rect.center,'player')
-                    self.allSprites.add(death_explosion)
+                    self.sprites.allSprites.add(death_explosion)
                     self.player.hide()
                     self.player.player_lives -= 1
                     self.player.shield = 100
 
                 if self.hitsBrooms == False:
                     pygame.sprite.Group.clear() 
-                    self.hitsBrooms = self.broken.pygame.sprite.empty()
+                    self.hitsBrooms = self.sprites.broken.pygame.sprite.empty()
         
 
             if self.player.player_lives == 0 and not death_explosion.alive():
@@ -290,9 +295,9 @@ class Game(pygame.sprite.Sprite):
             self.lives(self.screen,self.width_window-100,5,self.player.player_lives,self.playerImageLives)
         #    self.screen.blit(self.wallsSprite.image, self.wallsSprite.rect)    
             self.screen.blit(self.player.image, self.player.rect)
-            self.allSprites.draw(self.screen)
-            self.enemies.update()
-            self.bottles.update()
+            self.sprites.allSprites.draw(self.screen)
+            self.sprites.enemies.update()
+            self.sprites.bottles.update()
          #   self.allSpritesOrder = pygame.sprite.OrderedUpdates(self.allSprites, self.enemies ,self.bottle1)
             
        
