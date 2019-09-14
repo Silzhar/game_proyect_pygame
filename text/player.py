@@ -18,7 +18,8 @@ class Executus(pygame.sprite.Sprite):
         self.hide_timer = pygame.time.get_ticks()
 
         self.main = mainVersion
-        self.interaction = interactions
+        self.sprites = interactions
+    
         self.width_window = 1040
         self.height_window = 704
 
@@ -47,51 +48,16 @@ class Executus(pygame.sprite.Sprite):
         self.left_states = { 0: ( 0, 90, 30, 50 ), 1: (32 , 90, 30, 50), 2: (64 , 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt   
 
-    def collisionHit(self, spriteGroup):
-            # check whether broken hit
-            hits = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)
-            if hits:
-                self.hitSound.play()
-            for hit in hits:
-                self.main.game.score += 1
-                expl = self(hit.rect.center,'playerHit')
-                self.allSprites.add(expl)
-                self.allSprites.add(self.bottles)
 
-             # here we see whether it will hit or not
-            hits = pygame.sprite.spritecollide(self,self.enemies,True,pygame.sprite.collide_circle)
-            for hit in hits:
-                self.broomHit.play() # change
-                expl1 = self(hit.rect.center,'playerHit')
-                self.allSprites.add(expl1)
-                brooms = self.interaction.Brooms()
-                self.allSprites.add(brooms)
-                self.enemies.add(brooms)
-                self.player.shield -= 50
-                if self.player.shield <= 0:
-                    death_explosion = self(self.rect.center,'player')
-                    self.allSprites.add(death_explosion)
-                    self.player.hide()
-                    self.player.player_lives -= 1
-                    self.player.shield = 100
-
-                if hits == False:
-                    pygame.sprite.Group.clear() 
-                    hits = self.broken.pygame.sprite.empty()
-        
-
-            if self.player.player_lives == 0 and not death_explosion.alive():
-                self.main.Game.game_play = False
-
-            
-
- 
+   
     def knock(self):   # use this to knock bottles
+        self.knockSound = pygame.mixer.Sound('I+S/swoosh.wav')
+        self.knockSound.play()
         breaks = self.main.Breaks(self.rect.x,self.rect.y)
-        self.allSprites.add(breaks)
-        self.broken.add(breaks)
-        self.main.Game.knockSound.play()
-
+        self.sprites.allSprites.add(breaks)
+        self.sprites.broken.add(breaks)
+        
+          
     
     def hide(self): # use this to hide the player temproarily (dead)
         self.hidden = True
