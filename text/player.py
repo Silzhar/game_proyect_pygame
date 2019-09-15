@@ -4,6 +4,23 @@ from pygame.locals import *
 import interactions
 
 
+class Breaks(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.attackImage = pygame.image.load('I+S/attack.png')
+        self.image = pygame.transform.scale(self.attackImage,(10,10))
+        self.rect = self.image.get_rect()
+        self.radius = int(self.rect.width/2)
+        self.rect.bottom = y
+        self.rect.centerx = x+24
+        self.attackImage = -2
+
+    def update(self):
+        self.rect.y + self.attackImage
+        if self.rect.y < 0:
+            self.kill()
+              
+
 class Executus(pygame.sprite.Sprite):
     def __init__(self, position):   #  initialize all the variables
         pygame.sprite.Sprite.__init__(self)
@@ -53,7 +70,7 @@ class Executus(pygame.sprite.Sprite):
     def knock(self):   # use this to knock bottles
         self.knockSound = pygame.mixer.Sound('I+S/swoosh.wav')
         self.knockSound.play()
-        breaks = self.main.Breaks(self.rect.x,self.rect.y)
+        breaks = Breaks(self.rect.x,self.rect.y)
         self.sprites.allSprites.add(breaks)
         self.sprites.broken.add(breaks)
         
@@ -139,7 +156,9 @@ class Executus(pygame.sprite.Sprite):
             if event.key == pygame.K_UP:
                 self.update('stand_up')
             if event.key == pygame.K_DOWN:
-                self.update('stand_down')       
+                self.update('stand_down')     
+
+
                 
                 
                 
