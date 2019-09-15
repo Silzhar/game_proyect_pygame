@@ -79,25 +79,9 @@ class Bottle(pygame.sprite.Sprite):
         bottleOne = pygame.image.load('I+S/bottle.png')
         self.image = pygame.transform.scale(bottleOne,(12,30))   
         self.rect = self.image.get_rect()
-        self.rect = position
+    
+        self.position = position
 
-
-class Breaks(pygame.sprite.Sprite):
-    def __init__(self,x,y):
-        pygame.sprite.Sprite.__init__(self)
-        self.attackImage = pygame.image.load('I+S/attack.png')
-        self.image = pygame.transform.scale(self.attackImage,(10,10))
-        self.rect = self.image.get_rect()
-        self.radius = int(self.rect.width/2)
-        self.rect.bottom = y
-        self.rect.centerx = x+24
-        self.attackImage = -2
-
-    def update(self):
-        self.rect.y + self.attackImage
-        if self.rect.y < 0:
-            self.kill()
-            
 
 class Game(pygame.sprite.Sprite):
     
@@ -249,7 +233,7 @@ class Game(pygame.sprite.Sprite):
         
             # check whether broken hit
             
-            self.hitsBottles = pygame.sprite.groupcollide(self.sprites.broken,self.sprites.bottles,True,True)  
+            self.hitsBottles = pygame.sprite.groupcollide(self.sprites.allSprites,self.sprites.bottles,True,True)  
             if self.hitsBottles:
                 self.hitSound.play()
             for hit in self.hitsBottles:
