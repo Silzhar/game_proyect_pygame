@@ -1,20 +1,21 @@
 # game proyect pygame
 
-Title :  Executus ,the game !
+##  Executus ,the game !
 
 
-    ----    INSTAL    ---- 
+###    ----    INSTAL    ---- 
 
 pip install -r requirements.txt
 
 
-  ---- create virtual environment  ----
+###  ---- create virtual environment  ----
 
-Lynux / Ubuntu 
+1. Lynux / Ubuntu 
 
-$ python3 -m venv venv
+2. $ python3 -m venv venv
 
 
- # entorno virtual en carpeta game
+ #### entorno virtual en carpeta game
+
 game_proyect_pygame/game$ source venv/bin/activate
 
