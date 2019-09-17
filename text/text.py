@@ -279,12 +279,14 @@ class Game(pygame.sprite.Sprite):
 
 
         self.allSprites = pygame.sprite.Group()
-        self.allSprites.add(self.player)
+     #   self.allSprites.add(self.player)
 
         self.bottles = pygame.sprite.Group()
         self.bottles.add(self.bottle1)
         self.bottles.add(self.bottle2)
         self.allSprites.add(self.bottles)
+
+        self.breackBottles = pygame.sprite.Group() # add break bottles to draw in screen 
         
         # class , definitions
         self.brooms = Brooms()
@@ -373,8 +375,9 @@ class Game(pygame.sprite.Sprite):
             for hit in hits:
                 self.score += 1
                 expl = Collision(hit.rect.center,'playerHit')
-                self.allSprites.add(expl)
-                self.allSprites.add(self.bottles)   
+                self.breackBottles.add(expl)
+                self.breackBottles.add(self.bottles)  
+               
                       
 
             # here we see whether it will hit or not
@@ -382,7 +385,7 @@ class Game(pygame.sprite.Sprite):
             for hit in hits:
                 self.broomHit.play() # change
                 expl1 = Collision(hit.rect.center,'playerHit')
-                self.allSprites.add(expl1) # CLEAR SCREEN OF COLLISIONS
+                self.allSprites.add(expl1) 
                 brooms = Brooms()
                 self.allSprites.add(brooms)
                 self.enemies.add(brooms)
@@ -391,7 +394,7 @@ class Game(pygame.sprite.Sprite):
 
                 if self.player.shield <= 0:
                     self.death_explosion = Collision(self.player.rect.center,'player')
-                    self.allSprites.add(self.death_explosion)  # CLEAR SCREEN OF COLLISIONS
+                    self.allSprites.add(self.death_explosion)  
                     self.player.hide()
                     self.player.player_lives -= 1
                     self.player.shield = 100
@@ -412,10 +415,11 @@ class Game(pygame.sprite.Sprite):
             self.screen.blit(self.player.image, self.player.rect)
             self.allSprites.draw(self.screen)
 
-            self.enemies.update()
-            self.bottles.update()
+        #    self.enemies.update()
+        #   self.bottles.update()
             self.player.handle_event(event)
-            
+            self.allSprites.update()
+            self.breackBottles.draw(self.screen)
                   
             pygame.display.flip()
             self.clock.tick(20)
