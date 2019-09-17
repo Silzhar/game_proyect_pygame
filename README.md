@@ -1,6 +1,6 @@
-# game proyect pygame
+#  Executus ,the game !
 
-##  Executus ,the game !
+## game proyect pygame
 
 
 ###    ----    INSTAL    ---- 
