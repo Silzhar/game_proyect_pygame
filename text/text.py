@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 
 
+
 class Breaks(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
@@ -27,6 +28,7 @@ class Executus(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.radius = 21
      #   self.rect.center = (screen_width/2,screen_height-48)
+        
 
         self.shield = 100
         self.player_lives = 3
@@ -62,24 +64,20 @@ class Executus(pygame.sprite.Sprite):
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt   
 
 
-   
     def knock(self):   # use this to knock bottles
         self.knockSound = pygame.mixer.Sound('I+S/swoosh.wav')
         self.knockSound.play()
-
 
     def hide(self): # use this to hide the player temproarily (dead)
         self.hidden = True
         self.hide_timer = pygame.time.get_ticks()
         self.rect.center = (self.width_window/2,self.height_window + 200)  
-     
-             
+               
     def get_frame(self, frame_set):
         self.frame += 1
         if self.frame > (len(frame_set) - 1):
             self.frame = 0
         return frame_set[self.frame]
-
 
     def clip(self, clipped_rect):
         if type(clipped_rect) is dict:
@@ -87,7 +85,6 @@ class Executus(pygame.sprite.Sprite):
         else:
             self.sheet.set_clip(pygame.Rect(clipped_rect))
         return clipped_rect  
-
 
 
     # we will use this class to add movement to the player
@@ -103,7 +100,7 @@ class Executus(pygame.sprite.Sprite):
             self.rect.y -= 4
         if direction == 'down':
             self.clip(self.down_states)
-            self.rect.y += 4
+            self.rect.y += 4          
 
         if direction == 'stand_left':
             self.clip(self.left_states[0])
@@ -119,11 +116,9 @@ class Executus(pygame.sprite.Sprite):
                 self.hidden = False
                 self.rect.center = (self.width_window/2, self.height_window-48)
 
- 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             game_over = True
-
 
         if event.type == pygame.KEYDOWN:
 
@@ -135,9 +130,7 @@ class Executus(pygame.sprite.Sprite):
                 self.update('up')
             if event.key == pygame.K_DOWN:
                 self.update('down')
-            
-                
-
+                         
         if event.type == pygame.KEYUP:
 
             if event.key == pygame.K_LEFT:
@@ -148,9 +141,7 @@ class Executus(pygame.sprite.Sprite):
                 self.update('stand_up')
             if event.key == pygame.K_DOWN:
                 self.update('stand_down')     
-
-
-                
+            
 
 class Collision(pygame.sprite.Sprite):
     def __init__(self,center,size):
@@ -170,8 +161,10 @@ class Collision(pygame.sprite.Sprite):
         if now - self.last_update > self.frame_rate:
             self.last_update = now
             self.frame +=1
+
             if self.frame == len(self.game.collisionFrame[self.size]):
                 self.kill()
+
             else :
                 center = self.rect.center
                 self.image = self.game.collisionFrame[self.size][self.frame]
@@ -280,8 +273,7 @@ class Game(pygame.sprite.Sprite):
         self.Ywalls = 352
         self.positionWalls = (self.Xwalls, self.Ywalls)
 
-        # GROUPS SPRITES import from interactions
-     #   self.sprites = interactions
+        # GROUPS SPRITES 
         self.broken = pygame.sprite.Group()  # add sprites in (def knock) to breack bottles
         self.enemies = pygame.sprite.Group() # ad brooms to the sprites group
 
@@ -304,8 +296,7 @@ class Game(pygame.sprite.Sprite):
         self.collisionFrame['player']=[]
 
         for i in range(0,8):
-            breackBottle = pygame.image.load('I+S/breackBottle.png')
-            img = (breackBottle) 
+            breackBottle = pygame.image.load('I+S/breackBottle.png') 
 
             tombstoneOrigin = pygame.image.load('I+S/Tombstone.png')
             tombstone = pygame.transform.scale(tombstoneOrigin,(70,60))
@@ -350,9 +341,6 @@ class Game(pygame.sprite.Sprite):
         pygame.draw.rect(surf,self.white,exteriorLifeRect,2) # outer rectangle (whilte) ,life frame
 
  
-        
-
-
     def start(self):
         self.game_play = True 
 
@@ -361,8 +349,7 @@ class Game(pygame.sprite.Sprite):
         self.stop = 0
         self.xMove = 0
         self.yMove = 0 
-
-      
+   
         while self.game_play == True:
             for event in pygame.event.get():
                           
@@ -377,8 +364,7 @@ class Game(pygame.sprite.Sprite):
                         self.allSprites.add(breaks)
                         self.broken.add(breaks)
                     
-            
-        
+                 
             # check whether broken hit
             
             hits = pygame.sprite.groupcollide(self.broken,self.bottles,True,True)  # groupcollide   collided = None
@@ -396,19 +382,20 @@ class Game(pygame.sprite.Sprite):
             for hit in hits:
                 self.broomHit.play() # change
                 expl1 = Collision(hit.rect.center,'playerHit')
-                self.allSprites.add(expl1)
+                self.allSprites.add(expl1) # CLEAR SCREEN OF COLLISIONS
                 brooms = Brooms()
                 self.allSprites.add(brooms)
                 self.enemies.add(brooms)
                 self.player.shield -= 50
+                
 
                 if self.player.shield <= 0:
                     self.death_explosion = Collision(self.player.rect.center,'player')
-                    self.allSprites.add(self.death_explosion)
+                    self.allSprites.add(self.death_explosion)  # CLEAR SCREEN OF COLLISIONS
                     self.player.hide()
                     self.player.player_lives -= 1
                     self.player.shield = 100
-                   
+                                       
                 if hits == False:
                     pygame.sprite.Group.clear() 
                     hits = self.allSprites.empty()
@@ -428,11 +415,12 @@ class Game(pygame.sprite.Sprite):
             self.enemies.update()
             self.bottles.update()
             self.player.handle_event(event)
+            
                   
             pygame.display.flip()
             self.clock.tick(20)
                     
-           
+          
 
 if __name__ == '__main__':
     pygame.init()
