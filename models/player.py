@@ -1,4 +1,3 @@
-
 import pygame
 
 import settings
@@ -23,8 +22,7 @@ class Executus(pygame.sprite.Sprite):
 
         self.rect.center = (self.width_window/2, self.height_window-48)
 
-        self.sheet = pygame.image.load(
-            "{0}{1}".format(settings.ASSETS_PATH, "spliteCat.png"))
+        self.sheet = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "spliteCat.png"))
         self.sheet.set_clip(pygame.Rect(0, 0, 30, 30))  # visual box of sprite
         self.image = self.sheet.subsurface(self.sheet.get_clip())
         self.rect = self.image.get_rect()
@@ -39,19 +37,14 @@ class Executus(pygame.sprite.Sprite):
         self.hide_timer = pygame.time.get_ticks()
 
         # Tour the sprite in frames to create animation.
-        self.right_states = {0: (0, 0, 30, 28), 1: (
-            32, 0, 30, 28), 2: (64, 0, 30, 28)}
-        self.up_states = {0: (0, 30, 30, 30), 1: (
-            32, 30, 30, 30), 2: (64, 30, 30, 30)}
-        self.down_states = {0: (0, 60, 30, 30), 1: (
-            32, 60, 30, 30), 2: (64, 60, 30, 30)}
-        self.left_states = {0: (0, 90, 30, 50), 1: (
-            32, 90, 30, 50), 2: (64, 90, 30, 50)}
+        self.right_states = {0: (0, 0, 30, 28), 1: (32, 0, 30, 28), 2: (64, 0, 30, 28)}
+        self.up_states = {0: (0, 30, 30, 30), 1: (32, 30, 30, 30), 2: (64, 30, 30, 30)}
+        self.down_states = {0: (0, 60, 30, 30), 1: (32, 60, 30, 30), 2: (64, 60, 30, 30)}
+        self.left_states = {0: (0, 90, 30, 50), 1: (32, 90, 30, 50), 2: (64, 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
 
     def knock(self):   # Use this to knock bottles.
-        self.knockSound = pygame.mixer.Sound(
-            "{0}{1}".format(settings.ASSETS_PATH, "swoosh.wav"))
+        self.knockSound = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "swoosh.wav"))
         self.knockSound.play()
 
     def hide(self):  # Use this to hide the player temporarily (dead).
