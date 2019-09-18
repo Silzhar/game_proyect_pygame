@@ -2,7 +2,7 @@ import pygame
 
 import settings
 
- # Need this class to break the bottles (I have not managed to do it with pyagame modules).
+ # Need this class to break the bottles (I can not do it with pyagame modules).
 class Breaks(pygame.sprite.Sprite): 
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -20,8 +20,8 @@ class Breaks(pygame.sprite.Sprite):
             self.kill()
 
 # Need Collision to get the frame of the image animation and its center.
-# Later,you can delete if you want the image.
-class Collision(pygame.sprite.Sprite):
+# Later,you can delete the image if you want.
+class Collision(pygame.sprite.Sprite): 
     def __init__(self, center, object_id, collisions_frame):
         pygame.sprite.Sprite.__init__(self)
 

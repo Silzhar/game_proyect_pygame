@@ -17,17 +17,17 @@ class Game(pygame.sprite.Sprite):
         self.black = (0,   0,   0)
         self.green = (0,   255,   0)
 
-        self.score = 0  # this will keep track of the score
+        self.score = 0  # This will keep track of the score.
 
-        # load all the sound
+        # Load all the sound.
         pygame.mixer.init()
-        pygame.mixer.music.load("{0}{1}".format(settings.ASSETS_PATH, "gameLoops.mp3"))  # background music
+        pygame.mixer.music.load("{0}{1}".format(settings.ASSETS_PATH, "gameLoops.mp3"))  # Background music.
         self.knockSound = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "swoosh.wav"))
         self.hitSound = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "glass_break.wav"))
         self.broomHit = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "wail_cat.wav"))
         pygame.mixer.music.play(-1)
 
-        self.executusMeow = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "Cat_Meow.wav"))  # cat sound
+        self.executusMeow = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "Cat_Meow.wav"))  # Cat sound.
 
         # GAME SCREEN
         self.screen = pygame.display.set_mode((self.width_window, self.height_window))
@@ -37,12 +37,12 @@ class Game(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock()
 
         # PLAYER
-        # add Executus to Game
+        # Add Executus to Game.
         self.player = Executus((self.width_window/10, self.height_window/4))
-        self.playerImageLives = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "gus 2.png"))  # lives (3), upper right of screen.
+        self.playerImageLives = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "gus 2.png"))  # Lives (3), upper right of screen.
         self.player.update
 
-        # BOTTLES creation and position
+        # BOTTLES creation and position.
         self.positions = [(720, 602), (868, 600)]
         self.bottle1 = Bottle(self.positions[0])
         self.bottle2 = Bottle(self.positions[1])
@@ -56,9 +56,9 @@ class Game(pygame.sprite.Sprite):
         self.positionWalls = (self.Xwalls, self.Ywalls)
 
         # GROUPS SPRITES
-        # add sprites in (def knock) to breack bottles
+        # Add sprites in (def knock) to breack bottles.
         self.broken = pygame.sprite.Group()
-        self.enemies = pygame.sprite.Group()  # ad brooms to the sprites group
+        self.enemies = pygame.sprite.Group()  # Add brooms to the sprites group.
 
         self.allSprites = pygame.sprite.Group()
 
@@ -67,13 +67,13 @@ class Game(pygame.sprite.Sprite):
         self.bottles.add(self.bottle2)
         self.allSprites.add(self.bottles)
 
-        # add break bottles to draw in screen
+        # Add break bottles to draw in screen.
         self.breackBottles = pygame.sprite.Group()
 
-        # class, definitions
+        # Class, definitions.
         self.brooms = Brooms()
 
-        # collisions loop : player & objets
+        # Collisions loop : player & objets.
         self.collisions_frame = {}
         self.collisions_frame['playerHit'] = []
         self.collisions_frame['player'] = []
@@ -88,27 +88,27 @@ class Game(pygame.sprite.Sprite):
             img_playerHit = pygame.transform.scale(breackBottle, (32, 32))
             self.collisions_frame['playerHit'].append(img_playerHit)
 
-        # as we need multiple eneimies we will use a for loop
+        # As we need multiple eneimies we will use a for loop.
         for i in range(8):
             brooms = Brooms()
             self.enemies.add(brooms)
             self.allSprites.add(brooms)
 
-    def text(self, surface, text, size, x, y):  # function to draw text
+    def text(self, surface, text, size, x, y):  # Function to draw text.
         font = pygame.font.SysFont(self.font_name, size)
         textSurface = font.render(text, True, self.white)
         textRect = textSurface.get_rect()
         textRect.midtop = (x, y)
         surface.blit(textSurface, textRect)
 
-    def lives(self, surf, x, y, lives, img):  # total lives (3)
+    def lives(self, surf, x, y, lives, img):  # Total lives (3).
         for i in range(lives):
             img_rect = img.get_rect()
             img_rect.x = x + 30*i
             img_rect.y = y
             surf.blit(img, img_rect)
 
-    def lifeBar(self, surf, x, y, total):   # life : status / position
+    def lifeBar(self, surf, x, y, total):   # Life : status / position.
         if total < 0:
             total = 0
         bar_length = 100
@@ -116,15 +116,15 @@ class Game(pygame.sprite.Sprite):
         fill = (total/100)*bar_length
         exteriorLifeRect = pygame.Rect(x, y, bar_length, bar_height)
         insideLifeRect = pygame.Rect(x, y, fill, bar_height)
-        # life points (green)
+        # Life points (green).
         pygame.draw.rect(surf, self.green, insideLifeRect)
-        # outer rectangle (whilte) ,life frame
+        # Outer rectangle (whilte) ,life frame.
         pygame.draw.rect(surf, self.white, exteriorLifeRect, 2)
 
     def start(self):
         self.game_play = True
 
-        # we will use this class to add movement to the player
+        # We will use this class to add movement to the player.
         self.speed = 4
         self.stop = 0
         self.xMove = 0
@@ -144,7 +144,7 @@ class Game(pygame.sprite.Sprite):
                         self.allSprites.add(breaks)
                         self.broken.add(breaks)
 
-            # check whether broken hit
+            # Check whether broken hit.
             hits = pygame.sprite.groupcollide(self.broken, self.bottles, True, True)
             if hits:
                 self.hitSound.play()
@@ -154,7 +154,7 @@ class Game(pygame.sprite.Sprite):
                 self.breackBottles.add(expl)
                 self.breackBottles.add(self.bottles)
 
-            # here we see whether it will hit or not
+            # Here we see whether it will hit or not.
             hits = pygame.sprite.spritecollide(self.player, self.enemies, True, pygame.sprite.collide_circle)
             for hit in hits:
                 self.broomHit.play()  

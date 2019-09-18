@@ -6,7 +6,6 @@ import settings
 
 # Brooms  create the class for moving enemies
 
-
 class Brooms(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -38,7 +37,7 @@ class Brooms(pygame.sprite.Sprite):
             self.rect = self.image.get_rect()
             self.rect.center = oldCenter
 
-    def update(self):  # this will be used to move the object
+    def update(self):  # This will be used to move the object.
         self.rotation()
         self.rect.y += self.speedBrooms
         if self.rect.y > self.height_window:
