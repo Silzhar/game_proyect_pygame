@@ -1,7 +1,7 @@
 #  Executus ,the game !
 
 ## game proyect pygame
-[Executus](/media/gus 2.png)
+
 
 ###  ---- create virtual environment  ----
 
@@ -31,5 +31,7 @@ pip install -r requirements.txt
 - Freesound (Only need to register with an email account) [freesound](https://freesound.org/people/Benboncan/packs/6562/)
 
 - OpengameArt (PNG images and sounds. Page for 2D games) [OpengameArt](https://opengameart.org/)
+
+- Markdown guide (syntax) [Markdown](https://www.markdownguide.org/basic-syntax/)
 
 
