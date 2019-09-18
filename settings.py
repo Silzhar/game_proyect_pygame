@@ -1,0 +1,3 @@
+
+# Asset paths where all the music, images...
+ASSETS_PATH = "media/"
