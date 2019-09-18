@@ -1,7 +1,7 @@
 #  Executus ,the game !
 
 ## game proyect pygame
-
+![Executus](/home/silzhar/Documentos/Python/game_proyect_pygame/media/gus 2.png)
 
 ###  ---- create virtual environment  ----
 
