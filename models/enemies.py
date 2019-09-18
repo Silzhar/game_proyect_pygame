@@ -13,8 +13,7 @@ class Brooms(pygame.sprite.Sprite):
         self.width_window = 1040
         self.height_window = 704
 
-        broom = pygame.image.load("{0}{1}".format(
-            settings.ASSETS_PATH, "broom.png"))
+        broom = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "broom.png"))
         self.imageOrigin = pygame.transform.scale(broom, (13, 32))
         self.image = self.imageOrigin.copy()
         self.rect = self.image.get_rect()
