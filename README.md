@@ -1,7 +1,7 @@
 #  Executus ,the game !
 
 ## game proyect pygame
-![Executus](/media/gus 2.png)
+(/media/gus 2.png)
 
 ###  ---- create virtual environment  ----
 
