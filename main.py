@@ -5,6 +5,7 @@ from models.actions import Collision, Breaks
 from models.enemies import Brooms
 from models.items import Bottle
 import settings
+import walls
 
 
 class Game(pygame.sprite.Sprite):
@@ -47,14 +48,6 @@ class Game(pygame.sprite.Sprite):
         self.bottle1 = Bottle(self.positions[0])
         self.bottle2 = Bottle(self.positions[1])
 
-        self.wallsBg = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "walls.png"))
-        self.wallsSprite = pygame.sprite.Sprite()
-        self.wallsSprite.image = self.wallsBg
-        self.wallsSprite.rect = self.wallsBg.get_rect()
-        self.Xwalls = 520
-        self.Ywalls = 352
-        self.positionWalls = (self.Xwalls, self.Ywalls)
-
         # GROUPS SPRITES
         # Add sprites in (def knock) to breack bottles.
         self.broken = pygame.sprite.Group()
@@ -78,15 +71,13 @@ class Game(pygame.sprite.Sprite):
         self.collisions_frame['playerHit'] = []
         self.collisions_frame['player'] = []
 
-        for i in range(0, 8):
-            breackBottle = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "breackBottle.png"))
+        breackBottle = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "breackBottle.png"))
+        tombstoneOrigin = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "Tombstone.png"))
+        tombstone = pygame.transform.scale(tombstoneOrigin, (70, 60))
+        self.collisions_frame['player'].append(tombstone)
 
-            tombstoneOrigin = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "Tombstone.png"))
-            tombstone = pygame.transform.scale(tombstoneOrigin, (70, 60))
-            self.collisions_frame['player'].append(tombstone)
-
-            img_playerHit = pygame.transform.scale(breackBottle, (32, 32))
-            self.collisions_frame['playerHit'].append(img_playerHit)
+        img_playerHit = pygame.transform.scale(breackBottle, (32, 32))
+        self.collisions_frame['playerHit'].append(img_playerHit)
 
         # As we need multiple eneimies we will use a for loop.
         for i in range(8):
