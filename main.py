@@ -5,7 +5,13 @@ from models.actions import Collision, Breaks
 from models.enemies import Brooms
 from models.items import Bottle
 import settings
-import walls
+
+
+class Walls(pygame.sprite.Sprite):
+    def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)
+        green = (0,   255,   0)
+        pygame.draw.rect((981,77),green,(12,74))
 
 
 class Game(pygame.sprite.Sprite):
@@ -112,6 +118,12 @@ class Game(pygame.sprite.Sprite):
         # Outer rectangle (whilte) ,life frame.
         pygame.draw.rect(surf, self.white, exteriorLifeRect, 2)
 
+    def Walls(self):
+        green = (0,   255,   0)
+        pygame.draw.rect(self.screen,green, (12, 60, 981, 60), 1)
+        pygame.draw.rect(self.screen,green, (200, 130, 84, 184), 1)
+
+
     def start(self):
         self.game_play = True
 
@@ -181,6 +193,8 @@ class Game(pygame.sprite.Sprite):
             self.player.handle_event(event)
             self.allSprites.update()
             self.breackBottles.draw(self.screen)
+            self.Walls()
+
 
             pygame.display.flip()
             self.clock.tick(20)
