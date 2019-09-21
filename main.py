@@ -144,7 +144,7 @@ class Game(pygame.sprite.Sprite):
                 expl = Collision(hit.rect.center, 'playerHit',self.collisions_frame)
                 self.breackBottles.add(expl)
                 self.breackBottles.add(self.bottles)
-
+            
             # Here we see whether it will hit or not.
             hits = pygame.sprite.spritecollide(self.player, self.enemies, True, pygame.sprite.collide_circle)
             for hit in hits:
@@ -168,7 +168,7 @@ class Game(pygame.sprite.Sprite):
                     hits = self.allSprites.empty()
 
             if self.player.player_lives == 0 and not self.death_explosion.alive():
-                self.game_play = False
+                self.game_play = False   
 
             self.screen.blit(self.background, (0, 0))
             self.text(self.screen, str(self.score),18, self.width_window/2, 10)
