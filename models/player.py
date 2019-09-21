@@ -1,16 +1,15 @@
 import pygame
 
 import settings
+from models.enemies import Brooms
 
 
 class Executus(pygame.sprite.Sprite):
     def __init__(self, position):  # initialize all the variables
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(
-            "{0}{1}".format(settings.ASSETS_PATH, "gus 2.png"))
+        self.image = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "gus 2.png"))
         self.rect = self.image.get_rect()
         self.radius = 21
-        #   self.rect.center = (screen_width/2,screen_height-48)
 
         self.shield = 100
         self.player_lives = 3
@@ -19,8 +18,10 @@ class Executus(pygame.sprite.Sprite):
 
         self.width_window = 1040
         self.height_window = 704
-
         self.rect.center = (self.width_window/2, self.height_window-48)
+
+        self.knockSound = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "swoosh.wav"))
+        self.broomHit = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "wail_cat.wav"))
 
         self.sheet = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "spliteCat.png"))
         self.sheet.set_clip(pygame.Rect(0, 0, 30, 30))  # visual box of sprite
@@ -43,8 +44,8 @@ class Executus(pygame.sprite.Sprite):
         self.left_states = {0: (0, 90, 30, 50), 1: (32, 90, 30, 50), 2: (64, 90, 30, 50)}
         #   ( 0, 0, 50, 30 )    pos y , pos x, large ,alt
 
-    def knock(self):   # Use this to knock bottles.
-        self.knockSound = pygame.mixer.Sound("{0}{1}".format(settings.ASSETS_PATH, "swoosh.wav"))
+
+    def knock(self):  # Use this to knock bottles.
         self.knockSound.play()
 
     def hide(self):  # Use this to hide the player temporarily (dead).
