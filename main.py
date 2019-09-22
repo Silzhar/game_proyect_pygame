@@ -7,13 +7,6 @@ from models.items import Bottle
 import settings
 
 
-class Walls(pygame.sprite.Sprite):
-    def __init__(self, position):
-        pygame.sprite.Sprite.__init__(self)
-        green = (0,   255,   0)
-        pygame.draw.rect((981,77),green,(12,74))
-
-
 class Game(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -47,7 +40,6 @@ class Game(pygame.sprite.Sprite):
         # Add Executus to Game.
         self.player = Executus((self.width_window/10, self.height_window/4))
         self.playerImageLives = pygame.image.load("{0}{1}".format(settings.ASSETS_PATH, "gus 2.png"))  # Lives (3), upper right of screen.
-        self.player.update
 
         # BOTTLES creation and position.
         self.positions = [(720, 602), (868, 600)]
@@ -55,8 +47,7 @@ class Game(pygame.sprite.Sprite):
         self.bottle2 = Bottle(self.positions[1])
 
         # GROUPS SPRITES
-        # Add sprites in (def knock) to breack bottles.
-        self.broken = pygame.sprite.Group()
+        self.broken = pygame.sprite.Group()  # Add sprites in (def knock) to breack bottles.
         self.enemies = pygame.sprite.Group()  # Add brooms to the sprites group.
 
         self.allSprites = pygame.sprite.Group()
@@ -118,20 +109,8 @@ class Game(pygame.sprite.Sprite):
         # Outer rectangle (whilte) ,life frame.
         pygame.draw.rect(surf, self.white, exteriorLifeRect, 2)
 
-    def Walls(self):
-        green = (0,   255,   0)
-        pygame.draw.rect(self.screen,green, (12, 60, 981, 60), 1)
-        pygame.draw.rect(self.screen,green, (200, 130, 84, 184), 1)
-
-
     def start(self):
         self.game_play = True
-
-        # We will use this class to add movement to the player.
-        self.speed = 4
-        self.stop = 0
-        self.xMove = 0
-        self.yMove = 0
 
         while self.game_play:
             for event in pygame.event.get():
@@ -140,7 +119,7 @@ class Game(pygame.sprite.Sprite):
                     self.game_play = False
                     pygame.quit()
                     sys.exit()
-                elif event.type == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN:  # Triggers player attack to break the bottles.
                     if event.key == pygame.K_SPACE:
                         self.player.knock()
                         breaks = Breaks(self.player.rect.x, self.player.rect.y)
@@ -180,7 +159,7 @@ class Game(pygame.sprite.Sprite):
                     hits = self.allSprites.empty()
 
             if self.player.player_lives == 0 and not self.death_explosion.alive():
-                self.game_play = False   
+                self.game_play = False  
 
             self.screen.blit(self.background, (0, 0))
             self.text(self.screen, str(self.score),18, self.width_window/2, 10)
@@ -193,7 +172,7 @@ class Game(pygame.sprite.Sprite):
             self.player.handle_event(event)
             self.allSprites.update()
             self.breackBottles.draw(self.screen)
-            self.Walls()
+
 
 
             pygame.display.flip()
